@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>808abc81-c515-4b78-ae40-59d266574e9b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MediatRItemExtension.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\OperationType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ProcessType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\BoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\EnumExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\IntExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\ObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\CodeClassExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\FileCodeModel2Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\ProjectItemsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\InitResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BindHandlerHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BindValidatorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BuildOperationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BuildUserOperationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ResourceMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionItemHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrowHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MediatRItemExtensionPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CreateOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ObjectNameValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserProjectSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MediatRItemInitializeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MediatRSettingsStoreService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\MediatRItemExtensionWindow.xaml.cs">
+      <DependentUpon>MediatRItemExtensionWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)View\MediatRItemExtensionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

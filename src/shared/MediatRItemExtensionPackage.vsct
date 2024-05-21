@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidMediatRTemplatesPackage">
+    <Groups>
+      <Group guid="guidMediatRTemplatesPackageCmdSet" id="AddMediatRItemTemplateId" priority="0x0000">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CSCD_PROJECT_ADD"/>
+      </Group>
+    </Groups>
+    
+    <Buttons>
+      <Button guid="guidMediatRTemplatesPackageCmdSet" id="AddMediatRItemTemplateId" priority="0x0000" type="Button">
+        <Parent guid="guidMediatRTemplatesPackageCmdSet" id="AddMediatRItemTemplateId" />        
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Icon guid="guidMenuItemIcoX31" id="menuItemIcoX31" />
+        <Strings>
+          <ButtonText>MediatR Items Creation</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidMenuItemIcoX31" href="../shared/MCharp_31x31.png" usedList="menuItemIcoX31"/>
+    </Bitmaps>
+  </Commands>
+  <KeyBindings>
+    <KeyBinding guid="guidMediatRTemplatesPackageCmdSet" id="AddMediatRItemTemplateId"
+                mod1="Shift" key1="VK_INSERT" key2 ="M" editor="guidVSStd97" />
+  </KeyBindings>
+
+  <CommandPlacements>
+    <!--<CommandPlacement guid="guidMediatRTemplatesPackageCmdSet" id="AddMediatRItemTemplateId" priority="0x0000">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+    </CommandPlacement>-->
+    <CommandPlacement guid="guidMediatRTemplatesPackageCmdSet" id="AddMediatRItemTemplateId" priority="0x0200">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidMediatRTemplatesPackage" value="{00000000-0000-E000-AAAA-000000000000}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidMediatRTemplatesPackageCmdSet" value="{00000000-0000-EC0D-AAAA-000000000001}">
+      <IDSymbol name="AddMediatRItemTemplateId" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidMenuItemIcoX31" value="{00000000-0000-EC0A-AAAA-000000000001}" >
+            <IDSymbol name="menuItemIcoX31" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

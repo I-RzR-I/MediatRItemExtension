@@ -1,7 +1,7 @@
 | Name     | Details |
 |----------|----------|
-| `MediatRItemExtension.V2K19` | Extension for Visual Studio 2019 |
-| `MediatRItemExtension.V2K22` | Extension for Visual Studio 2022 |
+| <a href="https://marketplace.visualstudio.com/items?itemName=RzR.MediatRItemExtensionV2K19" target="_blank">`MediatRItemExtensionV2K19`</a> | Extension for Visual Studio 2019 |
+| <a href="https://marketplace.visualstudio.com/items?itemName=RzR.MediatRItemExtensionV2K22" target="_blank">`MediatRItemExtensionV2K22`</a> | Extension for Visual Studio 2022 |
 
 This is a relatively simple VS extension that allows you to create necessary classes when u use `MediatR` with `FluentValidation` nuget packages. Also, allows to save time and redirect it to more important tasks that are on the board or in the queue.
 

@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ResourceMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionItemHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrowHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VsThemeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediatRItemExtensionPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CreateOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ObjectNameValue.cs" />

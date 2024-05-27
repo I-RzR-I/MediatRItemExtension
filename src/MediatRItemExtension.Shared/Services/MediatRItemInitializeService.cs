@@ -20,6 +20,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Windows;
 using EnvDTE;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers;
 using MediatRItemExtension.Helpers.Operation;
@@ -143,7 +144,7 @@ namespace MediatRItemExtension.Services
 
                         if (slnItem.HasNoSelectedItems)
                         {
-                            ShowMessage(ResourceMessage.FolderProjectNotSelected, MessageBoxImage.Warning);
+                            ShowMessage(ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0003], MessageBoxImage.Warning);
 
                             return;
                         }
@@ -153,6 +154,7 @@ namespace MediatRItemExtension.Services
                     catch (Exception ex)
                     {
                         EndWaitDialog();
+                        Logger.Log(ErrorCodeType.E0003, e);
                         ShowMessage(ex.Message, MessageBoxImage.Error);
                     }
                 }

@@ -16,9 +16,11 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
 using EnvDTE80;
 using MediatRItemExtension.Enums;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
 using MediatRItemExtension.Models;
@@ -46,14 +48,21 @@ namespace MediatRItemExtension.Helpers.Operation
         internal static void CreateRequestHandlerInNewFile(ProjectItems folderProjectItems, CreateOperation model,
             string defaultClassTemplate)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
 
-            var handlerProjectItem =
-                folderProjectItems.AddFromTemplate(defaultClassTemplate, $"{model.HandlerName}.cs");
-            var handlerCodeClass = handlerProjectItem.FindCodeClassByName(model.HandlerName);
-            handlerCodeClass.Access = vsCMAccess.vsCMAccessPublic;
+                var handlerProjectItem =
+                    folderProjectItems.AddFromTemplate(defaultClassTemplate, $"{model.HandlerName}.cs");
+                var handlerCodeClass = handlerProjectItem.FindCodeClassByName(model.HandlerName);
+                handlerCodeClass.Access = vsCMAccess.vsCMAccessPublic;
 
-            AdjustRequestHandler(handlerCodeClass, model);
+                AdjustRequestHandler(handlerCodeClass, model);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0008, ex);
+            }
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -65,14 +74,21 @@ namespace MediatRItemExtension.Helpers.Operation
         /// =================================================================================================
         internal static void AddHandlerImplementationToFile(CodeClass codeClass, CreateOperation model)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
 
-            var handlerCodeClass = codeClass.Namespace.AddClass(
-                model.HandlerName,
-                -1,
-                Access: vsCMAccess.vsCMAccessPublic);
+                var handlerCodeClass = codeClass.Namespace.AddClass(
+                    model.HandlerName,
+                    -1,
+                    Access: vsCMAccess.vsCMAccessPublic);
 
-            AdjustRequestHandler(handlerCodeClass, model);
+                AdjustRequestHandler(handlerCodeClass, model);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0008, ex);
+            }
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -84,19 +100,26 @@ namespace MediatRItemExtension.Helpers.Operation
         /// =================================================================================================
         private static void AdjustRequestHandler(CodeClass codeClass, CreateOperation model)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var fileCodeModel = codeClass.Namespace.Parent as FileCodeModel2;
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                var fileCodeModel = codeClass.Namespace.Parent as FileCodeModel2;
 
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                fileCodeModel.AddUsingIfNotExist(model.OperationProcessing == ProcessType.Sync
-                    ? InitResources.DefaultUsing.DefaultSyncHandler
-                    : InitResources.DefaultUsing.DefaultAsyncHandler);
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    fileCodeModel.AddUsingIfNotExist(model.OperationProcessing == ProcessType.Sync
+                        ? InitResources.DefaultUsing.DefaultSyncHandler
+                        : InitResources.DefaultUsing.DefaultAsyncHandler);
 
-            codeClass.AddClassInheritance(model.HandlerInterface);
+                codeClass.AddClassInheritance(model.HandlerInterface);
 
-            codeClass.AddDefaultConstructor();
+                codeClass.AddDefaultConstructor();
 
-            AddHandlerImplementation(codeClass, model);
+                AddHandlerImplementation(codeClass, model);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0007, ex);
+            }
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -108,22 +131,29 @@ namespace MediatRItemExtension.Helpers.Operation
         /// =================================================================================================
         private static void AddHandlerImplementation(CodeClass codeClass, CreateOperation model)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
 
-            var handler = codeClass.AddFunction(
-                "Handle",
-                vsCMFunction.vsCMFunctionFunction,
-                model.HandlerHandleReturnValueName,
-                -1);
+                var handler = codeClass.AddFunction(
+                    "Handle",
+                    vsCMFunction.vsCMFunctionFunction,
+                    model.HandlerHandleReturnValueName,
+                    -1);
 
-            handler.AddParameter("request", model.OperationName, -1);
-            if (model.OperationProcessing == ProcessType.Async)
-                handler.AddParameter("cancellationToken", "CancellationToken", -1);
+                handler.AddParameter("request", model.OperationName, -1);
+                if (model.OperationProcessing == ProcessType.Async)
+                    handler.AddParameter("cancellationToken", "CancellationToken", -1);
 
-            handler.StartPoint.CreateEditPoint().ReplaceText(0, model.HandlerAccessor,
-                (int)vsEPReplaceTextOptions.vsEPReplaceTextAutoformat);
-            handler.GetStartPoint(vsCMPart.vsCMPartBody).CreateEditPoint()
-                .Insert(model.RequestHandlerIndent + "throw new NotImplementedException();");
+                handler.StartPoint.CreateEditPoint().ReplaceText(0, model.HandlerAccessor,
+                    (int)vsEPReplaceTextOptions.vsEPReplaceTextAutoformat);
+                handler.GetStartPoint(vsCMPart.vsCMPartBody).CreateEditPoint()
+                    .Insert(model.RequestHandlerIndent + "throw new NotImplementedException();");
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0006, ex);
+            }
         }
     }
 }

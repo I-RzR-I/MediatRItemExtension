@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using MediatRItemExtension.Models;
@@ -51,6 +52,23 @@ namespace MediatRItemExtension.Extensions.DataType
                     Name = x.Name,
                     Value = (T)x.GetValue(null)
                 });
+        } 
+        
+        /// <summary>
+        ///     Get description of enum property if exist
+        /// </summary>
+        /// <param name="value">Enum</param>
+        /// <param name="returnEmpty">In case when 'Description' not found, then return empty string</param>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public static string GetDescription(this Enum value, bool returnEmpty = false)
+        {
+            var fieldInfo = value.GetType().GetField(value.ToString());
+            if (fieldInfo == null) return null;
+
+            var attribute = (DescriptionAttribute)fieldInfo.GetCustomAttribute(typeof(DescriptionAttribute));
+
+            return attribute != null ? attribute.Description : (returnEmpty.Equals(true) ? "" : value.ToString());
         }
     }
 }

@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using MediatRItemExtension.Enums;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers;
 using MediatRItemExtension.Models;
@@ -186,11 +187,11 @@ namespace MediatRItemExtension.View
                 {
                     case nameof(TxTFolderFileName):
                         if (TxTFolderFileName.IsMissing())
-                            error = ResourceMessage.FolderFileNameNotEmpty;
+                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0001];
                         break;
                     case nameof(TxTResponseTypeName):
                         if (TxTResponseTypeName.IsMissing())
-                            error = ResourceMessage.ResponseTypeNameNotEmpty;
+                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0002];
                         break;
                 }
 

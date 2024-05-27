@@ -16,8 +16,10 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
 using EnvDTE80;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
 using MediatRItemExtension.Models;
@@ -45,20 +47,28 @@ namespace MediatRItemExtension.Helpers.Operation
         internal static void CreateRequestValidator(ProjectItems folderProjectItems, CreateOperation model,
             string defaultClassTemplate)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var validationProjectItem =
-                folderProjectItems.AddFromTemplate(defaultClassTemplate, $"{model.ValidatorName}.cs");
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                var validationProjectItem =
+                    folderProjectItems.AddFromTemplate(defaultClassTemplate, $"{model.ValidatorName}.cs");
 
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                (validationProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
-                    .DefaultValidator);
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    (validationProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources
+                        .DefaultUsing
+                        .DefaultValidator);
 
-            var codeClass = validationProjectItem.FindCodeClassByName(model.ValidatorName);
-            codeClass.Access = vsCMAccess.vsCMAccessPublic;
+                var codeClass = validationProjectItem.FindCodeClassByName(model.ValidatorName);
+                codeClass.Access = vsCMAccess.vsCMAccessPublic;
 
-            codeClass.AddClassInheritance(model.AbstractValidator);
+                codeClass.AddClassInheritance(model.AbstractValidator);
 
-            codeClass.AddDefaultConstructor();
+                codeClass.AddDefaultConstructor();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0004, ex);
+            }
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -70,20 +80,27 @@ namespace MediatRItemExtension.Helpers.Operation
         /// =================================================================================================
         internal static void AddValidatorImplementationToFile(CodeClass codeClass, CreateOperation model)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
 
-            var validatorCodeClass = codeClass.Namespace.AddClass(
-                model.ValidatorName,
-                -1,
-                Access: vsCMAccess.vsCMAccessPublic);
+                var validatorCodeClass = codeClass.Namespace.AddClass(
+                    model.ValidatorName,
+                    -1,
+                    Access: vsCMAccess.vsCMAccessPublic);
 
-            validatorCodeClass.AddClassInheritance(model.AbstractValidator);
+                validatorCodeClass.AddClassInheritance(model.AbstractValidator);
 
-            validatorCodeClass.AddDefaultConstructor();
+                validatorCodeClass.AddDefaultConstructor();
 
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                (codeClass.ProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
-                    .DefaultValidator);
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    (codeClass.ProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
+                        .DefaultValidator);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0005, ex);
+            }
         }
     }
 }

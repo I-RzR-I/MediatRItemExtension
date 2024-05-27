@@ -16,6 +16,7 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
 using EnvDTE80;
 using MediatRItemExtension.Extensions.DataType;
@@ -48,6 +49,15 @@ namespace MediatRItemExtension.Helpers.Operation
         internal static CodeClass CreateRequestOperation(ProjectItems projectItems, CreateOperation model,
             string classTemplate)
         {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             ThreadHelper.ThrowIfNotOnUIThread();
             var requestProjectItem = projectItems.AddFromTemplate(classTemplate, $"{model.OperationName}.cs");
 

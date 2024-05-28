@@ -16,8 +16,11 @@
 
 #region U S A G E S
 
+using System;
+using System.Collections.Generic;
 using EnvDTE;
 using EnvDTE80;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
 using MediatRItemExtension.Models;
@@ -32,8 +35,33 @@ namespace MediatRItemExtension.Helpers.Operation
     ///     A bind validator helper.
     /// </summary>
     /// =================================================================================================
-    internal static class BindValidatorHelper
+    internal class BindValidatorHelper
     {
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     (Immutable) options for controlling the constructor.
+        /// </summary>
+        /// =================================================================================================
+        private static IDictionary<string, string> _constructorValidatorParams;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the instance.
+        /// </summary>
+        /// <value>
+        ///     The instance.
+        /// </value>
+        /// =================================================================================================
+        internal static BindValidatorHelper Instance => new BindValidatorHelper();
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Prevents a default instance of the <see cref="BindValidatorHelper"/> class from being
+        ///     created.
+        /// </summary>
+        /// =================================================================================================
+        private BindValidatorHelper() => _constructorValidatorParams = new Dictionary<string, string>();
+
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     Creates request validator (AbstractValidator class).
@@ -42,23 +70,35 @@ namespace MediatRItemExtension.Helpers.Operation
         /// <param name="model">The model.</param>
         /// <param name="defaultClassTemplate">The default class template.</param>
         /// =================================================================================================
-        internal static void CreateRequestValidator(ProjectItems folderProjectItems, CreateOperation model,
+        internal void CreateRequestValidator(ProjectItems folderProjectItems, CreateOperation model,
             string defaultClassTemplate)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var validationProjectItem =
-                folderProjectItems.AddFromTemplate(defaultClassTemplate, $"{model.ValidatorName}.cs");
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                var validationProjectItem =
+                    folderProjectItems.AddFromTemplate(defaultClassTemplate, $"{model.ValidatorName}.cs");
 
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                (validationProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
-                    .DefaultValidator);
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    (validationProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing.DefaultValidator);
 
-            var codeClass = validationProjectItem.FindCodeClassByName(model.ValidatorName);
-            codeClass.Access = vsCMAccess.vsCMAccessPublic;
+                if (model.IsValidatorWithLocalizationImport.IsTrue())
+                {
+                    _constructorValidatorParams.AddOrUpdate(InitResources.ClassParams.Localization);
+                    (validationProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing.DefaultLocalization);
+                }
 
-            codeClass.AddClassInheritance(model.AbstractValidator);
+                var codeClass = validationProjectItem.FindCodeClassByName(model.ValidatorName);
+                codeClass.Access = vsCMAccess.vsCMAccessPublic;
 
-            codeClass.AddDefaultConstructor();
+                codeClass.AddClassInheritance(model.AbstractValidator);
+
+                codeClass.AddDefaultConstructor(_constructorValidatorParams);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0004, ex);
+            }
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -68,22 +108,34 @@ namespace MediatRItemExtension.Helpers.Operation
         /// <param name="codeClass">The code class.</param>
         /// <param name="model">The model.</param>
         /// =================================================================================================
-        internal static void AddValidatorImplementationToFile(CodeClass codeClass, CreateOperation model)
+        internal void AddValidatorImplementationToFile(CodeClass codeClass, CreateOperation model)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
 
-            var validatorCodeClass = codeClass.Namespace.AddClass(
-                model.ValidatorName,
-                -1,
-                Access: vsCMAccess.vsCMAccessPublic);
+                var validatorCodeClass = codeClass.Namespace.AddClass(
+                    model.ValidatorName,
+                    -1,
+                    Access: vsCMAccess.vsCMAccessPublic);
 
-            validatorCodeClass.AddClassInheritance(model.AbstractValidator);
+                validatorCodeClass.AddClassInheritance(model.AbstractValidator);
 
-            validatorCodeClass.AddDefaultConstructor();
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    (codeClass.ProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing.DefaultValidator);
 
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                (codeClass.ProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
-                    .DefaultValidator);
+                if (model.IsValidatorWithLocalizationImport.IsTrue())
+                {
+                    _constructorValidatorParams.AddOrUpdate(InitResources.ClassParams.Localization);
+                    (codeClass.ProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing.DefaultLocalization);
+                }
+
+                codeClass.AddDefaultConstructor(_constructorValidatorParams);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ErrorCodeType.E0005, ex);
+            }
         }
     }
 }

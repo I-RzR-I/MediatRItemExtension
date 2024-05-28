@@ -16,8 +16,10 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
 using EnvDTE80;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
 using MediatRItemExtension.Models;
@@ -48,19 +50,29 @@ namespace MediatRItemExtension.Helpers.Operation
         internal static CodeClass CreateRequestOperation(ProjectItems projectItems, CreateOperation model,
             string classTemplate)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var requestProjectItem = projectItems.AddFromTemplate(classTemplate, $"{model.OperationName}.cs");
+            try
+            {
 
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                (requestProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
-                    .DefaultOperation);
+                ThreadHelper.ThrowIfNotOnUIThread();
+                var requestProjectItem = projectItems.AddFromTemplate(classTemplate, $"{model.OperationName}.cs");
 
-            var codeClass = requestProjectItem.FindCodeClassByName(model.OperationName);
-            codeClass.Access = vsCMAccess.vsCMAccessPublic;
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    (requestProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
+                        .DefaultOperation);
 
-            codeClass.AddClassInheritance(model.RequestInterface);
+                var codeClass = requestProjectItem.FindCodeClassByName(model.OperationName);
+                codeClass.Access = vsCMAccess.vsCMAccessPublic;
 
-            return codeClass;
+                codeClass.AddClassInheritance(model.RequestInterface);
+
+                return codeClass;
+            }
+            catch (Exception e)
+            {
+                Logger.Log(ErrorCodeType.E0010, e);
+
+                return null;
+            }
         }
     }
 }

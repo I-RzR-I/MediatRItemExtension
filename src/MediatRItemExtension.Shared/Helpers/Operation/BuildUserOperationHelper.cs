@@ -16,7 +16,9 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Models;
 using Microsoft.VisualStudio.Shell;
@@ -41,44 +43,51 @@ namespace MediatRItemExtension.Helpers.Operation
         /// =================================================================================================
         internal static void CreateDefinedOperations(SolutionItemHelper slnItemHelper, CreateOperation model)
         {
-            CodeClass classCode = null;
-            ThreadHelper.ThrowIfNotOnUIThread();
-
-            var folderProjectItems = GetCurrentSelectedOrCreateNewFolder(slnItemHelper, model);
-
-            if (model.CreateOperationClass.IsTrue())
-                classCode = BuildOperationHelper.CreateRequestOperation(folderProjectItems, model,
-                    slnItemHelper.DefaultClassTemplate);
-
-            if (model.IsOneFile.IsTrue()) // Create operation | handler | validator in one file
+            try
             {
-                if (model.CreateHandlerClass.IsTrue() && classCode.IsNotNull())
-                    BindHandlerHelper.AddHandlerImplementationToFile(classCode, model);
+                CodeClass classCode = null;
+                ThreadHelper.ThrowIfNotOnUIThread();
 
-                if (model.CreateValidatorClass.IsTrue() && classCode.IsNotNull())
-                    BindValidatorHelper.AddValidatorImplementationToFile(classCode, model);
-            }
-            else if (model.IsOperationHandlerInOneFile.IsTrue()) // Create operation | handler in one file
-            {
-                if (model.CreateHandlerClass.IsTrue() && classCode.IsNotNull())
-                    BindHandlerHelper.AddHandlerImplementationToFile(classCode, model);
+                var folderProjectItems = GetCurrentSelectedOrCreateNewFolder(slnItemHelper, model);
 
-                if (model.CreateValidatorClass.IsTrue())
-                    BindValidatorHelper.CreateRequestValidator(folderProjectItems, model,
-                        slnItemHelper.DefaultClassTemplate);
-            }
-            else
-            {
-                if (model.CreateHandlerClass.IsTrue())
-                    BindHandlerHelper.CreateRequestHandlerInNewFile(folderProjectItems, model,
+                if (model.CreateOperationClass.IsTrue())
+                    classCode = BuildOperationHelper.CreateRequestOperation(folderProjectItems, model,
                         slnItemHelper.DefaultClassTemplate);
 
-                if (model.CreateValidatorClass.IsTrue())
-                    BindValidatorHelper.CreateRequestValidator(folderProjectItems, model,
-                        slnItemHelper.DefaultClassTemplate);
-            }
+                if (model.IsOneFile.IsTrue()) // Create operation | handler | validator in one file
+                {
+                    if (model.CreateHandlerClass.IsTrue() && classCode.IsNotNull())
+                        BindHandlerHelper.Instance.AddHandlerImplementationToFile(classCode, model);
 
-            slnItemHelper.SelectedProject.Save();
+                    if (model.CreateValidatorClass.IsTrue() && classCode.IsNotNull())
+                        BindValidatorHelper.Instance.AddValidatorImplementationToFile(classCode, model);
+                }
+                else if (model.IsOperationHandlerInOneFile.IsTrue()) // Create operation | handler in one file
+                {
+                    if (model.CreateHandlerClass.IsTrue() && classCode.IsNotNull())
+                        BindHandlerHelper.Instance.AddHandlerImplementationToFile(classCode, model);
+
+                    if (model.CreateValidatorClass.IsTrue())
+                        BindValidatorHelper.Instance.CreateRequestValidator(folderProjectItems, model,
+                            slnItemHelper.DefaultClassTemplate);
+                }
+                else
+                {
+                    if (model.CreateHandlerClass.IsTrue())
+                        BindHandlerHelper.Instance.CreateRequestHandlerInNewFile(folderProjectItems, model,
+                            slnItemHelper.DefaultClassTemplate);
+
+                    if (model.CreateValidatorClass.IsTrue())
+                        BindValidatorHelper.Instance.CreateRequestValidator(folderProjectItems, model,
+                            slnItemHelper.DefaultClassTemplate);
+                }
+
+                slnItemHelper.SelectedProject.Save();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(ErrorCodeType.E0002, e, true);
+            }
         }
 
         /// -------------------------------------------------------------------------------------------------

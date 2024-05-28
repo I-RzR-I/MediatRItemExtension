@@ -18,6 +18,8 @@
 
 using System;
 using System.Diagnostics;
+using System.Windows;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
@@ -76,17 +78,26 @@ namespace MediatRItemExtension.Helpers
         /// <summary>
         ///     Logs the given message.
         /// </summary>
+        /// <param name="keyCode">Error key code</param>
         /// <param name="message">The message.</param>
+        /// <param name="showMessageBox">Show message box with information</param>
         /// =================================================================================================
-        internal static void Log(object message)
+        internal static void Log(ErrorCodeType keyCode, object message, bool showMessageBox = false)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
                 if (EnsurePane())
-#pragma warning disable RS0030
-                    _pane.OutputString($"{DateTime.Now}: {message}{Environment.NewLine}");
-#pragma warning restore RS0030
+                    _pane.OutputString($"{DateTime.Now}: [{keyCode}] {message}{Environment.NewLine}");
+
+                if (showMessageBox.IsTrue())
+                {
+                    MessageBox.Show(
+                        string.Format(ResourceMessage.ErrorMessagesStore[keyCode], $"{Environment.NewLine}{message}"),
+                        InitResources.PackageId,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {

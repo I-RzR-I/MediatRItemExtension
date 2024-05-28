@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-//  Assembly         : MediatRItemExtension.MediatRItemExtension.V2K22
+//  Assembly         : MediatRItemExtension.MediatRItemExtension
 //  Author           : RzR
 //  Created On       : 2024-05-17 23:17
 // 
@@ -19,7 +19,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Helpers;
 using MediatRItemExtension.Services;
 using Microsoft.VisualStudio.Shell;
@@ -78,6 +78,7 @@ namespace MediatRItemExtension
             try
             {
                 Logger.Initialize(this, InitResources.PackageId);
+
                 // When initialized asynchronously, the current thread may be a background thread at this point.
                 // Do any initialization that requires the UI thread after switching to the UI thread.
                 await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
@@ -86,12 +87,7 @@ namespace MediatRItemExtension
             }
             catch (Exception e)
             {
-                Logger.Log(e);
-                MessageBox.Show(
-                    $"Error occurred:{Environment.NewLine}{e.Message}",
-                    InitResources.PackageId,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                Logger.Log(ErrorCodeType.E0001, e, true);
             }
         }
 

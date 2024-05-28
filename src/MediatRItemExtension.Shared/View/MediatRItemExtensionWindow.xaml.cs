@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using MediatRItemExtension.Enums;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers;
 using MediatRItemExtension.Models;
@@ -45,6 +46,9 @@ namespace MediatRItemExtension.View
         private ObjectNameValue<ProcessType> _selectedProcessOperation;
         private string _txTFolderFileName;
         private string _txTResponseTypeName;
+        private string _txtOperationInheritance;
+        private bool _isWithHandler;
+        private bool _isWithValidator;
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -96,6 +100,16 @@ namespace MediatRItemExtension.View
             }
         }
 
+        public string TxTOperationInheritance
+        {
+            get => _txtOperationInheritance;
+            set
+            {
+                _txtOperationInheritance = value;
+                OnPropertyChanged(nameof(TxTOperationInheritance));
+            }
+        }
+
         public ObjectNameValue<OperationType> SelectedOperation
         {
             get => _selectedOperation;
@@ -120,9 +134,37 @@ namespace MediatRItemExtension.View
 
         public bool IsWithOperation { get; set; }
 
-        public bool IsWithHandler { get; set; }
+        public bool IsWithHandler
+        {
+            get => _isWithHandler;
+            set
+            {
+                if (value == _isWithHandler) return;
+                _isWithHandler = value;
+                IsEnabledHandlerWithLocalizationImport = value.IsTrue();
+                IsHandlerWithLocalizationImport = false;
 
-        public bool IsWithValidator { get; set; }
+                OnPropertyChanged(nameof(IsHandlerWithLocalizationImport));
+                OnPropertyChanged(nameof(IsEnabledHandlerWithLocalizationImport));
+                OnPropertyChanged(nameof(IsWithHandler));
+            }
+        }
+
+        public bool IsWithValidator
+        {
+            get => _isWithValidator;
+            set
+            {
+                if (value == _isWithValidator) return;
+                _isWithValidator = value;
+                IsEnabledValidatorWithLocalizationImport = value.IsTrue();
+                IsValidatorWithLocalizationImport = false;
+
+                OnPropertyChanged(nameof(IsValidatorWithLocalizationImport));
+                OnPropertyChanged(nameof(IsEnabledValidatorWithLocalizationImport));
+                OnPropertyChanged(nameof(IsWithValidator));
+            }
+        }
 
         public bool IsOneFile
         {
@@ -140,6 +182,14 @@ namespace MediatRItemExtension.View
         }
 
         public bool IsAutoImportUsing { get; set; }
+
+        public bool IsValidatorWithLocalizationImport { get; set; }
+
+        public bool IsEnabledValidatorWithLocalizationImport { get; set; }
+
+        public bool IsHandlerWithLocalizationImport { get; set; }
+
+        public bool IsEnabledHandlerWithLocalizationImport { get; set; }
 
         public bool IsOneFolder
         {
@@ -186,11 +236,11 @@ namespace MediatRItemExtension.View
                 {
                     case nameof(TxTFolderFileName):
                         if (TxTFolderFileName.IsMissing())
-                            error = ResourceMessage.FolderFileNameNotEmpty;
+                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0001];
                         break;
                     case nameof(TxTResponseTypeName):
                         if (TxTResponseTypeName.IsMissing())
-                            error = ResourceMessage.ResponseTypeNameNotEmpty;
+                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0002];
                         break;
                 }
 
@@ -237,7 +287,10 @@ namespace MediatRItemExtension.View
                 IsOneFile = IsOneFile,
                 IsAutoImportUsingReferences = IsAutoImportUsing,
                 IsOneFolder = IsOneFolder,
-                IsOperationHandlerInOneFile = IsOperationHandlerInOneFile
+                IsOperationHandlerInOneFile = IsOperationHandlerInOneFile,
+                IsHandlerWithLocalizationImport = IsHandlerWithLocalizationImport,
+                IsValidatorWithLocalizationImport = IsValidatorWithLocalizationImport,
+                OperationInheritance = TxTOperationInheritance
             };
         }
 

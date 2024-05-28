@@ -9,9 +9,12 @@
     <Import_RootNamespace>MediatRItemExtension.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Codes\ErrorCodeType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Codes\ReqInfoCodeType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\OperationType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ProcessType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\BoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\IntExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataType\ObjectExtensions.cs" />
@@ -28,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ResourceMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionItemHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrowHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VsThemeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediatRItemExtensionPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CreateOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ObjectNameValue.cs" />

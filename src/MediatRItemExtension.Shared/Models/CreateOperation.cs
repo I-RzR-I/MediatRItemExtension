@@ -17,6 +17,7 @@
 #region U S A G E S
 
 using MediatRItemExtension.Enums;
+using MediatRItemExtension.Extensions.DataType;
 
 #endregion
 
@@ -48,6 +49,16 @@ namespace MediatRItemExtension.Models
         /// </value>
         /// =================================================================================================
         public string ResponseTypeName { get; set; } = "Response";
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets or sets the operation inheritance.
+        /// </summary>
+        /// <value>
+        ///     The operation inheritance.
+        /// </value>
+        /// =================================================================================================
+        public string OperationInheritance { get; set; } = "";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -121,14 +132,33 @@ namespace MediatRItemExtension.Models
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
-        ///     Gets or sets a value indicating whether this object is automatic import using
-        ///     references.
+        ///     Gets or sets a value indicating whether this object is automatic import using references.
         /// </summary>
         /// <value>
         ///     True if this object is automatic import using references, false if not.
         /// </value>
         /// =================================================================================================
         internal bool IsAutoImportUsingReferences { get; set; }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets or sets a value indicating whether this object is validator with localization import.
+        /// </summary>
+        /// <value>
+        ///     True if this object is validator with localization import, false if not.
+        /// </value>
+        /// =================================================================================================
+        internal bool IsValidatorWithLocalizationImport { get; set; }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets or sets a value indicating whether this object is handler with localization import.
+        /// </summary>
+        /// <value>
+        ///     True if this object is handler with localization import, false if not.
+        /// </value>
+        /// =================================================================================================
+        internal bool IsHandlerWithLocalizationImport { get; set; }
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -278,9 +308,11 @@ namespace MediatRItemExtension.Models
         {
             get
             {
-                var interfaceStr = Operation == OperationType.Notification ? " : INotification" : " : IRequest";
+                var interfaceStr = Operation == OperationType.Notification ? "INotification" : "IRequest";
 
-                return $"{interfaceStr}<{ResponseTypeName}>";
+                return OperationInheritance.IsNullOrEmpty() 
+                    ? $" : {interfaceStr}<{ResponseTypeName}>" 
+                    : $" : {OperationInheritance}, {interfaceStr}<{ResponseTypeName}>";
             }
         }
     }

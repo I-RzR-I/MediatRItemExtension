@@ -17,6 +17,7 @@
 #region U S A G E S
 
 using System;
+using System.Collections.Generic;
 using EnvDTE;
 using EnvDTE80;
 using MediatRItemExtension.Enums;
@@ -35,8 +36,36 @@ namespace MediatRItemExtension.Helpers.Operation
     ///     A bind handler helper.
     /// </summary>
     /// =================================================================================================
-    internal static class BindHandlerHelper
+    internal class BindHandlerHelper
     {
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     (Immutable) options for controlling the constructor.
+        /// </summary>
+        /// =================================================================================================
+        private static IDictionary<string, string> _constructorHandlerParams;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the instance.
+        /// </summary>
+        /// <value>
+        ///     The instance.
+        /// </value>
+        /// =================================================================================================
+        internal static BindHandlerHelper Instance => new BindHandlerHelper();
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Prevents a default instance of the <see cref="BindHandlerHelper"/> class from being
+        ///     created.
+        /// </summary>
+        /// =================================================================================================
+        private BindHandlerHelper()
+        {
+            _constructorHandlerParams = new Dictionary<string, string>();
+        }
+
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     Creates request handler in new file.
@@ -45,7 +74,7 @@ namespace MediatRItemExtension.Helpers.Operation
         /// <param name="model">The model.</param>
         /// <param name="defaultClassTemplate">The default class template.</param>
         /// =================================================================================================
-        internal static void CreateRequestHandlerInNewFile(ProjectItems folderProjectItems, CreateOperation model,
+        internal void CreateRequestHandlerInNewFile(ProjectItems folderProjectItems, CreateOperation model,
             string defaultClassTemplate)
         {
             try
@@ -72,7 +101,7 @@ namespace MediatRItemExtension.Helpers.Operation
         /// <param name="codeClass">The code class.</param>
         /// <param name="model">The model.</param>
         /// =================================================================================================
-        internal static void AddHandlerImplementationToFile(CodeClass codeClass, CreateOperation model)
+        internal void AddHandlerImplementationToFile(CodeClass codeClass, CreateOperation model)
         {
             try
             {
@@ -110,9 +139,15 @@ namespace MediatRItemExtension.Helpers.Operation
                         ? InitResources.DefaultUsing.DefaultSyncHandler
                         : InitResources.DefaultUsing.DefaultAsyncHandler);
 
+                if (model.IsHandlerWithLocalizationImport.IsTrue())
+                {
+                    _constructorHandlerParams.AddOrUpdate(InitResources.ClassParams.Localization);
+                    fileCodeModel.AddUsingIfNotExist(InitResources.DefaultUsing.DefaultLocalization);
+                }
+
                 codeClass.AddClassInheritance(model.HandlerInterface);
 
-                codeClass.AddDefaultConstructor();
+                codeClass.AddDefaultConstructor(_constructorHandlerParams);
 
                 AddHandlerImplementation(codeClass, model);
             }

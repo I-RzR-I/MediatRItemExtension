@@ -202,6 +202,16 @@ namespace MediatRItemExtension.Helpers
                         new Setter(Control.PaddingProperty, new Thickness(5, 3, 5, 3))
                     }
                 };
+
+                allResources[typeof(GroupBox)] = new Style
+                {
+                    TargetType = typeof(GroupBox),
+                    BasedOn = (Style)shellResources[typeof(GroupBox)],
+                    Setters =
+                    {
+                        new Setter(Control.PaddingProperty, new Thickness(5, 3, 5, 3))
+                    }
+                };
             }
             catch
             { }

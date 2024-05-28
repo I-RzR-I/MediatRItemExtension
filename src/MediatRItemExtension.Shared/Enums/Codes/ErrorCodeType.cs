@@ -31,6 +31,7 @@ namespace MediatRItemExtension.Enums.Codes
         E0006,
         E0007,
         E0008,
-        E0009
+        E0009,
+        E0010
     }
 }

@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-//  Assembly         : MediatRItemExtension.MediatRItemExtension.V2K22
+//  Assembly         : MediatRItemExtension.MediatRItemExtension
 //  Author           : RzR
 //  Created On       : 2024-05-17 23:17
 // 

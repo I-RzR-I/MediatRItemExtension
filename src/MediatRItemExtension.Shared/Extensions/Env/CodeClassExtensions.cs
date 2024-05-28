@@ -16,7 +16,9 @@
 
 #region U S A G E S
 
+using System.Collections.Generic;
 using EnvDTE;
+using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers;
 using Microsoft.VisualStudio.Shell;
 
@@ -73,6 +75,39 @@ namespace MediatRItemExtension.Extensions.Env
                 Type: vsCMTypeRef.vsCMTypeRefVoid,
                 Position: 0,
                 Access: vsCMAccess.vsCMAccessPublic);
+
+            return codeClass;
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     The CodeClass extension method that adds a default constructor.
+        /// </summary>
+        /// <param name="codeClass">The codeClass to act on.</param>
+        /// <param name="ctorParams">Constructor parameters</param>
+        /// <returns>
+        ///     The CodeClass.
+        /// </returns>
+        /// =================================================================================================
+        internal static CodeClass AddDefaultConstructor(this CodeClass codeClass, IDictionary<string, string> ctorParams)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            ThrowHelper.IfNullArgumentNullException(codeClass, nameof(codeClass));
+
+            var codeFunction = codeClass.AddFunction(
+                Name: codeClass.Name,
+                Kind: vsCMFunction.vsCMFunctionConstructor,
+                Type: vsCMTypeRef.vsCMTypeRefVoid,
+                Position: 0,
+                Access: vsCMAccess.vsCMAccessPublic);
+
+            if (ctorParams.IsNotNull() && ctorParams.Count > 0)
+            {
+                foreach (var item in ctorParams)
+                {
+                    codeFunction.AddParameter(item.Value, item.Key, -1);
+                }
+            }
 
             return codeClass;
         }

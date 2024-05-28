@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+// ReSharper disable ClassNeverInstantiated.Global
 
 #endregion
 
@@ -30,7 +31,6 @@ namespace MediatRItemExtension.Helpers
     /// =================================================================================================
     internal static class InitResources
     {
-
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     (Immutable) identifier for the package.
@@ -255,6 +255,28 @@ namespace MediatRItemExtension.Helpers
             /// </summary>
             /// =================================================================================================
             internal static readonly IEnumerable<string> DefaultOperation = new List<string>(1) { "MediatR" };
+
+            /// -------------------------------------------------------------------------------------------------
+            /// <summary>
+            ///     (Immutable) the default localization.
+            /// </summary>
+            /// =================================================================================================
+            internal static readonly IEnumerable<string> DefaultLocalization = new List<string>(1) { "Microsoft.Extensions.Localization" };
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     The class parameters.
+        /// </summary>
+        /// =================================================================================================
+        internal static class ClassParams
+        {
+            /// -------------------------------------------------------------------------------------------------
+            /// <summary>
+            ///     The localization.
+            /// </summary>
+            /// =================================================================================================
+            internal static KeyValuePair<string, string> Localization = new("IStringLocalizer", "stringLocalizer");
         }
     }
 }

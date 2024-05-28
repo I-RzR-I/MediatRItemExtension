@@ -19,6 +19,7 @@
 using System;
 using EnvDTE;
 using EnvDTE80;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
 using MediatRItemExtension.Models;
@@ -52,25 +53,26 @@ namespace MediatRItemExtension.Helpers.Operation
             try
             {
 
+                ThreadHelper.ThrowIfNotOnUIThread();
+                var requestProjectItem = projectItems.AddFromTemplate(classTemplate, $"{model.OperationName}.cs");
+
+                if (model.IsAutoImportUsingReferences.IsTrue())
+                    (requestProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
+                        .DefaultOperation);
+
+                var codeClass = requestProjectItem.FindCodeClassByName(model.OperationName);
+                codeClass.Access = vsCMAccess.vsCMAccessPublic;
+
+                codeClass.AddClassInheritance(model.RequestInterface);
+
+                return codeClass;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Logger.Log(ErrorCodeType.E0010, e);
+
+                return null;
             }
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var requestProjectItem = projectItems.AddFromTemplate(classTemplate, $"{model.OperationName}.cs");
-
-            if (model.IsAutoImportUsingReferences.IsTrue())
-                (requestProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing
-                    .DefaultOperation);
-
-            var codeClass = requestProjectItem.FindCodeClassByName(model.OperationName);
-            codeClass.Access = vsCMAccess.vsCMAccessPublic;
-
-            codeClass.AddClassInheritance(model.RequestInterface);
-
-            return codeClass;
         }
     }
 }

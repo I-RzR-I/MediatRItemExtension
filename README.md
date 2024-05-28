@@ -12,7 +12,10 @@ From the box are available functionalities as:
 * Select how the request will be executed `Sync` or `Async`;
 * Select which type of operation you want to create;
 * Specify the name of the folder/file;
-* Use one name for the folder/file where will be stored information.
+* Use one name for the folder/file where will be stored information;
+* Select option if you want to add `IStringLocalizer` to Validator or/and to the Handler;
+* Specify any base class which will be added to the operation class (`Query`, `Command`, `Notification`).
+
 
 To understand more efficiently how you can use available functionalities please consult the [using documentation/file](docs/usage.md).
 

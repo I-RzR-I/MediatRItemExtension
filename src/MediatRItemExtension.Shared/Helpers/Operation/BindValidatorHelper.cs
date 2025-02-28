@@ -130,7 +130,7 @@ namespace MediatRItemExtension.Helpers.Operation
                     (codeClass.ProjectItem.FileCodeModel as FileCodeModel2).AddUsingIfNotExist(InitResources.DefaultUsing.DefaultLocalization);
                 }
 
-                codeClass.AddDefaultConstructor(_constructorValidatorParams);
+                validatorCodeClass.AddDefaultConstructor(_constructorValidatorParams);
             }
             catch (Exception ex)
             {

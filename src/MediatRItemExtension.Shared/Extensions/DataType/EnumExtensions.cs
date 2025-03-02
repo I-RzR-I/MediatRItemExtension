@@ -64,11 +64,11 @@ namespace MediatRItemExtension.Extensions.DataType
         public static string GetDescription(this Enum value, bool returnEmpty = false)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
-            if (fieldInfo == null) return null;
+            if (fieldInfo.IsNull()) return null;
 
             var attribute = (DescriptionAttribute)fieldInfo.GetCustomAttribute(typeof(DescriptionAttribute));
 
-            return attribute != null ? attribute.Description : (returnEmpty.Equals(true) ? "" : value.ToString());
+            return attribute.IsNotNull() ? attribute.Description : (returnEmpty.IsTrue() ? "" : value.ToString());
         }
     }
 }

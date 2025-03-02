@@ -104,6 +104,23 @@
                     <Label Content="Item response type:" Margin="0" FontWeight="SemiBold"/>
                     <TextBox Height="25" Width="517" Margin="5,0,0,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" 
                              TextWrapping="NoWrap">
+                        <TextBox.ToolTip>
+                            <StackPanel>
+                                <TextBlock>
+                                    Required. Complete with the operation result.
+                                </TextBlock>
+                                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                <WrapPanel>
+                                    <TextBlock>
+                                        Example: Generate the query request.
+                                        <LineBreak />
+                                        '<Run FontWeight="Black"><![CDATA[IEnumerable<string>]]></Run>' is the query response type.
+                                        <LineBreak />
+                                        <Run FontStyle="Italic"><![CDATA[public class TempOperationQuery : BaseClass, IRequest<IEnumerable<string>>{ ... }]]></Run>
+                                    </TextBlock>
+                                </WrapPanel>
+                            </StackPanel>
+                        </TextBox.ToolTip>
                         <TextBox.Text>
                             <Binding Path="TxTResponseTypeName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -185,7 +202,23 @@
                         </Grid.RowDefinitions>
 
                         <CheckBox Grid.Row="0" Grid.Column="0" Content="Auto import using related references"
-                                  IsChecked="{Binding IsAutoImportUsing, Mode=TwoWay}" Margin="5,5,0,5"/>
+                                  IsChecked="{Binding IsAutoImportUsing, Mode=TwoWay}" Margin="5,5,0,5">
+                            <CheckBox.ToolTip>
+                                <StackPanel>
+                                    <TextBlock>
+                                        Optional. Inject in the query, handler, validator class using imports references.
+                                    </TextBlock>
+                                    <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                    <WrapPanel>
+                                        <TextBlock>
+                                            Importing using references depends on selection.
+                                            <LineBreak />
+                                            <Run FontStyle="Italic"><![CDATA[MediatR, System.Threading, System.Threading.Tasks, FluentValidation, Microsoft.Extensions.Localization]]></Run>
+                                        </TextBlock>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
 
                         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Width="auto">
                             <Grid.ColumnDefinitions>
@@ -203,11 +236,39 @@
 
                                     <CheckBox Grid.Row="0" Grid.Column="0" Content="Add to Validator"
                                               IsChecked="{Binding IsValidatorWithLocalizationImport, Mode=TwoWay}"
-                                              IsEnabled="{Binding IsEnabledValidatorWithLocalizationImport, Mode=TwoWay}"/>
+                                              IsEnabled="{Binding IsEnabledValidatorWithLocalizationImport, Mode=TwoWay}">
+                                        <CheckBox.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock>
+                                                    Optional. Inject in the validation class ctor the `IStringLocalizer`.
+                                                </TextBlock>
+                                                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                                <WrapPanel>
+                                                    <TextBlock>
+                                                        <Run FontStyle="Italic"><![CDATA[... public TempOperationValidator(IStringLocalizer stringLocalizer) { ... } ...]]></Run>
+                                                    </TextBlock>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </CheckBox.ToolTip>
+                                    </CheckBox>
 
                                     <CheckBox Grid.Row="0" Grid.Column="1" Content="Add to Handler"
                                               IsChecked="{Binding IsHandlerWithLocalizationImport, Mode=TwoWay}" 
-                                              IsEnabled="{Binding IsEnabledHandlerWithLocalizationImport, Mode=TwoWay}"/>
+                                              IsEnabled="{Binding IsEnabledHandlerWithLocalizationImport, Mode=TwoWay}">
+                                        <CheckBox.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock>
+                                                    Optional. Inject in the handler class ctor the `IStringLocalizer`.
+                                                </TextBlock>
+                                                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                                <WrapPanel>
+                                                    <TextBlock>
+                                                        <Run FontStyle="Italic"><![CDATA[... public TempOperationHandler(IStringLocalizer stringLocalizer) { ... } ...]]></Run>
+                                                    </TextBlock>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </CheckBox.ToolTip>
+                                    </CheckBox>
                                 </Grid>
                             </GroupBox>
                         </Grid>
@@ -217,6 +278,23 @@
                             <Label Content="Operation inheritance:" Margin="0" FontWeight="SemiBold"/>
                             <TextBox Height="25" Width="500" Margin="5,0,0,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" 
                                      TextWrapping="NoWrap">
+                                <TextBox.ToolTip>
+                                    <StackPanel>
+                                        <TextBlock>
+                                            Optional. Complete with some inheritance data (class).
+                                        </TextBlock>
+                                        <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                        <WrapPanel>
+                                            <TextBlock>
+                                                Example: Generate the query request.
+                                                <LineBreak />
+                                                '<Run FontWeight="Black">BaseClass</Run>' class is inheritance
+                                                <LineBreak />
+                                                <Run FontStyle="Italic"><![CDATA[public class TempOperationQuery : BaseClass, IRequest<IEnumerable<string>>{ ... }]]></Run>
+                                            </TextBlock>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </TextBox.ToolTip>
                                 <TextBox.Text>
                                     <Binding Path="TxTOperationInheritance" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                     </Binding>
@@ -239,6 +317,27 @@
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <Label Content="Folder/file name:" Style="{StaticResource DefaultLayout}" Margin="0" FontWeight="SemiBold"/>
                 <TextBox Height="25" Width="345" Margin="0,10,0,10" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
+                    <TextBox.ToolTip>
+                        <StackPanel>
+                            <TextBlock>
+                                Required. Complete the name of the folder (also the same name of classes).
+                            </TextBlock>
+                            <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                            <WrapPanel>
+                                <TextBlock>
+                                    Example: Generate the query request.
+                                    <LineBreak />
+                                    '<Run FontWeight="Black">TempOperation</Run>' is as the folder name.
+                                    <LineBreak />
+                                    <Run FontStyle="Italic"><![CDATA[public class TempOperationQuery : IRequest<IEnumerable<string>>{ ... }]]></Run>
+                                    <LineBreak />
+                                    <Run FontStyle="Italic"><![CDATA[public class TempOperationHandler : IRequestHandler<TempOperationQuery, IEnumerable<string>>{ ... }]]></Run>
+                                    <LineBreak />
+                                    <Run FontStyle="Italic"><![CDATA[public class TempOperationValidator : AbstractValidator<TempOperationQuery> { ... }]]></Run>
+                                </TextBlock>
+                            </WrapPanel>
+                        </StackPanel>
+                    </TextBox.ToolTip>
                     <TextBox.Text>
                         <Binding Path="TxTFolderFileName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>

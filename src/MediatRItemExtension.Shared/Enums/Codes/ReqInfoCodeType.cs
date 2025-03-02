@@ -15,6 +15,7 @@
 // ***********************************************************************
 
 // ReSharper disable InconsistentNaming
+
 namespace MediatRItemExtension.Enums.Codes
 {
     /// -------------------------------------------------------------------------------------------------
@@ -27,6 +28,6 @@ namespace MediatRItemExtension.Enums.Codes
         RF0001,
         RF0002,
         RF0003,
-        RF0004,
+        RF0004
     }
 }

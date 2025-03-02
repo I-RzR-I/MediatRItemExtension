@@ -27,10 +27,12 @@ namespace MediatRItemExtension.Enums
         ///     An enum constant representing the query option.
         /// </summary>
         Query,
+
         /// <summary>
         ///     An enum constant representing the command option.
         /// </summary>
         Command,
+        
         /// <summary>
         ///     An enum constant representing the notification option.
         /// </summary>

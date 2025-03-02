@@ -17,6 +17,7 @@
 #region U S A G E S
 
 using EnvDTE;
+using MediatRItemExtension.Helpers;
 using Microsoft.VisualStudio.Shell;
 
 #endregion
@@ -43,6 +44,8 @@ namespace MediatRItemExtension.Extensions.Env
         internal static CodeClass FindCodeClassByName(this ProjectItem projectItem, string className)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            ThrowHelper.IfNullArgumentNullException(projectItem, nameof(projectItem));
+            ThrowHelper.IfNullArgumentNullException(className, nameof(className));
 
             foreach (var codeElement in projectItem.FileCodeModel.CodeElements)
             {

@@ -47,6 +47,7 @@ namespace MediatRItemExtension.Extensions.Env
             IEnumerable<string> usingReferences)
         {
             ThrowHelper.IfNullArgumentNullException(fileCodeModel, nameof(fileCodeModel));
+            ThrowHelper.IfNullArgumentNullException(usingReferences, nameof(usingReferences));
 
             var currentImports = fileCodeModel.CodeElements
                 .OfType<CodeImport>()

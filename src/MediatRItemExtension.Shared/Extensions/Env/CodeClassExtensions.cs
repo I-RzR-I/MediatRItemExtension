@@ -47,6 +47,7 @@ namespace MediatRItemExtension.Extensions.Env
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             ThrowHelper.IfNullArgumentNullException(codeClass, nameof(codeClass));
+            ThrowHelper.IfNullArgumentNullException(insertValue, nameof(insertValue));
 
             var editPoint = codeClass.StartPoint.CreateEditPoint();
             editPoint.EndOfLine();
@@ -93,6 +94,7 @@ namespace MediatRItemExtension.Extensions.Env
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             ThrowHelper.IfNullArgumentNullException(codeClass, nameof(codeClass));
+            ThrowHelper.IfNullArgumentNullException(ctorParams, nameof(ctorParams));
 
             var codeFunction = codeClass.AddFunction(
                 Name: codeClass.Name,

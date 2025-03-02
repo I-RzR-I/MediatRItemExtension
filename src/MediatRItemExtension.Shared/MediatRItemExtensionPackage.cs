@@ -6,7 +6,7 @@
 //  Last Modified By : RzR
 //  Last Modified On : 2024-05-20 15:46
 // ***********************************************************************
-//  <copyright file="MediatRItemExtensionV2K22Package.cs" company="">
+//  <copyright file="MediatRItemExtensionPackage.cs" company="">
 //   Copyright (c) RzR. All rights reserved.
 //  </copyright>
 // 
@@ -49,13 +49,13 @@ namespace MediatRItemExtension
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration(InitResources.ProductName, InitResources.Description, InitResources.Version)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(InitResources.PackageId)]
+    [Guid(InitResources.GeneralPackageId)]
     public class MediatRItemExtensionPackage : AsyncPackage
     {
         /// <summary>
         ///     MediatRItemExtensionPackage GUID string.
         /// </summary>
-        public const string PackageGuidString = InitResources.PackageId;
+        public const string PackageGuidString = InitResources.GeneralPackageId;
 
         #region Package Members
 
@@ -77,7 +77,7 @@ namespace MediatRItemExtension
         {
             try
             {
-                Logger.Initialize(this, InitResources.PackageId);
+                Logger.Initialize(this, InitResources.GeneralPackageId);
 
                 // When initialized asynchronously, the current thread may be a background thread at this point.
                 // Do any initialization that requires the UI thread after switching to the UI thread.

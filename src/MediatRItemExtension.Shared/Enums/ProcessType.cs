@@ -27,6 +27,7 @@ namespace MediatRItemExtension.Enums
         ///     An enum constant representing the Asynchronous option.
         /// </summary>
         Async,
+
         /// <summary>
         ///     An enum constant representing the Synchronize option.
         /// </summary>

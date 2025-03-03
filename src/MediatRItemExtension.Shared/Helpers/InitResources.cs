@@ -36,21 +36,21 @@ namespace MediatRItemExtension.Helpers
         ///     (Immutable) identifier for the package.
         /// </summary>
         /// =================================================================================================
-        internal const string PackageId = "00000000-0000-E000-AAAA-000000000000";
+        internal const string GeneralPackageId = "00000000-0000-E000-AAAA-000000000000";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     (Immutable) identifier for the package v 2019.
         /// </summary>
         /// =================================================================================================
-        internal const string PackageIdV2K19 = "00000000-0000-E000-AAAA-000000002019";
+        private const string PackageIdV2K19 = "00000000-0000-E000-AAAA-000000002019";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     (Immutable) the package identifier v 2022.
         /// </summary>
         /// =================================================================================================
-        internal const string PackageIdV2K22 = "00000000-0000-E000-AAAA-000000002022";
+        private const string PackageIdV2K22 = "00000000-0000-E000-AAAA-000000002022";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -99,7 +99,7 @@ namespace MediatRItemExtension.Helpers
         ///     (Immutable) the VSIX version.
         /// </summary>
         /// =================================================================================================
-        internal const string Version = "1.1.0.0";
+        internal const string Version = "2.0.0.0";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>

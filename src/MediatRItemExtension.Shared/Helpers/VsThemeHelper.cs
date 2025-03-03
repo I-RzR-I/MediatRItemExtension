@@ -14,6 +14,8 @@
 //  </summary>
 // ***********************************************************************
 
+#region U S A G E S
+
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 using System;
@@ -21,10 +23,12 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using MediatRItemExtension.Extensions.DataType;
+
 // ReSharper disable EmptyGeneralCatchClause
 // ReSharper disable AssignNullToNotNullAttribute
-
 // ReSharper disable FieldCanBeMadeReadOnly.Global
+
+#endregion
 
 namespace MediatRItemExtension.Helpers
 {

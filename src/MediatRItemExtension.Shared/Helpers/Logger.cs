@@ -85,16 +85,20 @@ namespace MediatRItemExtension.Helpers
         internal static void Log(ErrorCodeType keyCode, object message, bool showMessageBox = false)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            var manifestInfo = VsixInfoHelper.Instance.GetManifest();
             try
             {
                 if (EnsurePane())
                     _pane.OutputString($"{DateTime.Now}: [{keyCode}] {message}{Environment.NewLine}");
 
+                var logMessage = string.Format(ResourceMessage.ErrorMessagesStore[keyCode], $"{message}");
+                LoggerFile.Log(manifestInfo.LocalPath, manifestInfo.DisplayName, manifestInfo.PackageId, keyCode.ToString(), logMessage);
+
                 if (showMessageBox.IsTrue())
                 {
                     MessageBox.Show(
                         string.Format(ResourceMessage.ErrorMessagesStore[keyCode], $"{Environment.NewLine}{message}"),
-                        InitResources.PackageId,
+                        manifestInfo.PackageId,
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
@@ -102,6 +106,7 @@ namespace MediatRItemExtension.Helpers
             catch (Exception ex)
             {
                 Debug.Write(ex);
+                LoggerFile.Log(manifestInfo.LocalPath, manifestInfo.DisplayName, manifestInfo.PackageId, ex);
             }
         }
 

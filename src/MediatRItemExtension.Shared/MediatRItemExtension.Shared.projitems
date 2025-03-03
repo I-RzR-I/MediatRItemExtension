@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\ProjectItemsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InitResources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\LoggerFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BindHandlerHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BindValidatorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BuildOperationHelper.cs" />
@@ -31,11 +32,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ResourceMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionItemHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ThrowHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VsixInfoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VsThemeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediatRItemExtensionPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CreateOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ObjectNameValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserProjectSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\VsixInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MediatRItemInitializeService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MediatRSettingsStoreService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View\MediatRItemExtensionWindow.xaml.cs">

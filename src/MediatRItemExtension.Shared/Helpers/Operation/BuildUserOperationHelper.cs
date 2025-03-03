@@ -54,31 +54,34 @@ namespace MediatRItemExtension.Helpers.Operation
                     classCode = BuildOperationHelper.CreateRequestOperation(folderProjectItems, model,
                         slnItemHelper.DefaultClassTemplate);
 
+                var handler = BindHandlerHelper.Instance;
+                var validator = BindValidatorHelper.Instance;
+
                 if (model.IsOneFile.IsTrue()) // Create operation | handler | validator in one file
                 {
                     if (model.CreateHandlerClass.IsTrue() && classCode.IsNotNull())
-                        BindHandlerHelper.Instance.AddHandlerImplementationToFile(classCode, model);
+                        handler.AddHandlerImplementationToFile(classCode, model);
 
                     if (model.CreateValidatorClass.IsTrue() && classCode.IsNotNull())
-                        BindValidatorHelper.Instance.AddValidatorImplementationToFile(classCode, model);
+                        validator.AddValidatorImplementationToFile(classCode, model);
                 }
                 else if (model.IsOperationHandlerInOneFile.IsTrue()) // Create operation | handler in one file
                 {
                     if (model.CreateHandlerClass.IsTrue() && classCode.IsNotNull())
-                        BindHandlerHelper.Instance.AddHandlerImplementationToFile(classCode, model);
+                        handler.AddHandlerImplementationToFile(classCode, model);
 
                     if (model.CreateValidatorClass.IsTrue())
-                        BindValidatorHelper.Instance.CreateRequestValidator(folderProjectItems, model,
+                        validator.CreateRequestValidator(folderProjectItems, model,
                             slnItemHelper.DefaultClassTemplate);
                 }
                 else
                 {
                     if (model.CreateHandlerClass.IsTrue())
-                        BindHandlerHelper.Instance.CreateRequestHandlerInNewFile(folderProjectItems, model,
+                        handler.CreateRequestHandlerInNewFile(folderProjectItems, model,
                             slnItemHelper.DefaultClassTemplate);
 
                     if (model.CreateValidatorClass.IsTrue())
-                        BindValidatorHelper.Instance.CreateRequestValidator(folderProjectItems, model,
+                        validator.CreateRequestValidator(folderProjectItems, model,
                             slnItemHelper.DefaultClassTemplate);
                 }
 

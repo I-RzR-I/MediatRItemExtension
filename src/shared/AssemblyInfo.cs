@@ -9,7 +9,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(InitResources.Author + " ®")]
 [assembly: AssemblyProduct(InitResources.ProductName)]
-[assembly: AssemblyCopyright("Copyright © 2022-2024 " + InitResources.Author + " All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2022-2025 " + InitResources.Author + " All rights reserved.")]
 [assembly: AssemblyTrademark("® " + InitResources.Author + "™")]
 [assembly: AssemblyCulture("")]
 

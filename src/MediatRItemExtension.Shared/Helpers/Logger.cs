@@ -98,7 +98,7 @@ namespace MediatRItemExtension.Helpers
                 {
                     MessageBox.Show(
                         string.Format(ResourceMessage.ErrorMessagesStore[keyCode], $"{Environment.NewLine}{message}"),
-                        manifestInfo.PackageId,
+                        manifestInfo.DisplayName,
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }

@@ -34,10 +34,10 @@ namespace MediatRItemExtension.Helpers
         private const string Template = @"
 //--------------------------------------------------//
 //
-//	Date: {0}
-//	PackageId: {1}
-//	ErrorCode: {2}
-//	Message: {3}
+//	Date:       {0}
+//	PackageId:  {1}
+//	ErrorCode:  {2}
+//	Message:    {3}
 //
 //--------------------------------------------------//
 ";
@@ -64,9 +64,8 @@ namespace MediatRItemExtension.Helpers
             lock (Lock)
             {
                 var pathFile = path + Path.DirectorySeparatorChar + fileName + ".log";
-                CreateFileIfNotExist(pathFile);
 
-                var sw = new StreamWriter(pathFile, true);
+                var sw = File.Exists(pathFile).IsFalse() ? new StreamWriter(pathFile) : File.AppendText(pathFile);
                 sw.WriteLine(Template, DateTime.Now, packageId, code, message);
                 sw.Flush();
                 sw.Close();
@@ -87,25 +86,12 @@ namespace MediatRItemExtension.Helpers
             lock (Lock)
             {
                 var pathFile = path + Path.DirectorySeparatorChar + fileName + ".log";
-                CreateFileIfNotExist(pathFile);
 
-                var sw = new StreamWriter(pathFile, true);
+                var sw = File.Exists(pathFile).IsFalse() ? new StreamWriter(pathFile) : File.AppendText(pathFile);
                 sw.WriteLine(Template, DateTime.Now, packageId, "EXCEPTION", exception);
                 sw.Flush();
                 sw.Close();
             }
-        }
-
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary>
-        ///     Creates file if not exist.
-        /// </summary>
-        /// <param name="pathFile">The path file.</param>
-        /// =================================================================================================
-        private static void CreateFileIfNotExist(string pathFile)
-        {
-            if (File.Exists(pathFile).IsFalse())
-                File.Create(pathFile);
         }
     }
 }

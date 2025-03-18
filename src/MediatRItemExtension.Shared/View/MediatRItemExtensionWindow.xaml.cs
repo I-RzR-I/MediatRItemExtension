@@ -47,6 +47,7 @@ namespace MediatRItemExtension.View
         private string _txTFolderFileName;
         private string _txTResponseTypeName;
         private string _txtOperationInheritance;
+        private string _txtHandlerInheritance;
         private bool _isWithHandler;
         private bool _isWithValidator;
 
@@ -107,6 +108,16 @@ namespace MediatRItemExtension.View
             {
                 _txtOperationInheritance = value;
                 OnPropertyChanged(nameof(TxTOperationInheritance));
+            }
+        }
+
+        public string TxTHandlerInheritance
+        {
+            get => _txtHandlerInheritance;
+            set
+            {
+                _txtHandlerInheritance = value;
+                OnPropertyChanged(nameof(TxTHandlerInheritance));
             }
         }
 
@@ -290,7 +301,8 @@ namespace MediatRItemExtension.View
                 IsOperationHandlerInOneFile = IsOperationHandlerInOneFile,
                 IsHandlerWithLocalizationImport = IsHandlerWithLocalizationImport,
                 IsValidatorWithLocalizationImport = IsValidatorWithLocalizationImport,
-                OperationInheritance = TxTOperationInheritance
+                OperationInheritance = TxTOperationInheritance,
+                HandlerInheritance = TxTHandlerInheritance
             };
         }
 

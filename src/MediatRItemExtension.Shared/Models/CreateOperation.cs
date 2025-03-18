@@ -52,6 +52,16 @@ namespace MediatRItemExtension.Models
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
+        ///     Gets or sets the handler inheritance.
+        /// </summary>
+        /// <value>
+        ///     The handler inheritance.
+        /// </value>
+        /// =================================================================================================
+        public string HandlerInheritance { get; set; } = "";
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
         ///     Gets or sets the operation inheritance.
         /// </summary>
         /// <value>
@@ -255,14 +265,14 @@ namespace MediatRItemExtension.Models
                 string interfaceStr;
                 if (OperationProcessing == ProcessType.Sync)
                 {
-                    interfaceStr = Operation == OperationType.Notification ? " : NotificationHandler" : " : RequestHandler";
+                    interfaceStr = Operation == OperationType.Notification ? " :{0} NotificationHandler" : " :{0} RequestHandler";
                 }
                 else
                 {
-                    interfaceStr = Operation == OperationType.Notification ? " : INotificationHandler" : " : IRequestHandler";
+                    interfaceStr = Operation == OperationType.Notification ? " :{0} INotificationHandler" : " :{0} IRequestHandler";
                 }
 
-                interfaceStr = $"{interfaceStr}<{OperationName}, {ResponseTypeName}>";
+                interfaceStr = $"{string.Format(interfaceStr, HandlerInheritance.IsNullOrEmpty() ? "" : $" {HandlerInheritance},")}<{OperationName}, {ResponseTypeName}>";
 
                 return interfaceStr;
             }
@@ -310,8 +320,8 @@ namespace MediatRItemExtension.Models
             {
                 var interfaceStr = Operation == OperationType.Notification ? "INotification" : "IRequest";
 
-                return OperationInheritance.IsNullOrEmpty() 
-                    ? $" : {interfaceStr}<{ResponseTypeName}>" 
+                return OperationInheritance.IsNullOrEmpty()
+                    ? $" : {interfaceStr}<{ResponseTypeName}>"
                     : $" : {OperationInheritance}, {interfaceStr}<{ResponseTypeName}>";
             }
         }

@@ -6,7 +6,7 @@
                  xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
                  xmlns:localHelpers="clr-namespace:MediatRItemExtension.Helpers"
                  mc:Ignorable="d" 
-                 Height="420"
+                 Height="450"
                  Width="700"
                  TextOptions.TextFormattingMode="Display"
                  localHelpers:VsThemeHelper.UseVsTheme="True"
@@ -37,6 +37,7 @@
     <Grid x:Name="LayoutRoot">
         <Grid Margin="5,5,5,60" Height="Auto">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -199,6 +200,7 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
                         <CheckBox Grid.Row="0" Grid.Column="0" Content="Auto import using related references"
@@ -297,6 +299,35 @@
                                 </TextBox.ToolTip>
                                 <TextBox.Text>
                                     <Binding Path="TxTOperationInheritance" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                    Grid.ColumnSpan="2" Margin="0,10,0,0" Width="635">
+                            <Label Content="Handler inheritance:" Margin="0" FontWeight="SemiBold"/>
+                            <TextBox Height="25" Width="500" Margin="16,0,0,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" 
+                                     TextWrapping="NoWrap">
+                                <TextBox.ToolTip>
+                                    <StackPanel>
+                                        <TextBlock>
+                                            Optional. Complete with some inheritance data (class).
+                                        </TextBlock>
+                                        <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                        <WrapPanel>
+                                            <TextBlock>
+                                                Example: Generate the handler request.
+                                                <LineBreak />
+                                                '<Run FontWeight="Black">BaseClass</Run>' class is inheritance
+                                                <LineBreak />
+                                                <Run FontStyle="Italic"><![CDATA[public class TempOperationHandler : BaseClass, IRequestHandler<string>{ ... }]]></Run>
+                                            </TextBlock>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </TextBox.ToolTip>
+                                <TextBox.Text>
+                                    <Binding Path="TxTHandlerInheritance" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>

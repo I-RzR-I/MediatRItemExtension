@@ -1,3 +1,6 @@
+### **v2.1.0.0**
+-> Add optional input field: `Handler Inheritance`;<br />
+
 ### **v2.0.0.0**
 -> Fix injection IStringLocalizer ctor parameter in validator ctor on option 'All operation in one file';<br />
 -> Add tooltip information on textboxes and some checkboxes to clarify what inputs are for and what the result will be;<br />

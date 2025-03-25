@@ -24,8 +24,11 @@ using MediatRItemExtension.Enums;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers;
+using MediatRItemExtension.Helpers.Window.Controls;
+using MediatRItemExtension.Helpers.Localization;
 using MediatRItemExtension.Models;
 using Microsoft.VisualStudio.PlatformUI;
+
 // ReSharper disable RedundantExtendsListEntry
 // ReSharper disable UnusedParameter.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -39,6 +42,8 @@ namespace MediatRItemExtension.View
     /// </summary>
     public partial class MediatRItemExtensionWindow : DialogWindow, INotifyPropertyChanged, IDataErrorInfo
     {
+        #region PRIVATE FIELDS
+
         private bool _isOneFile;
         private bool _isOneFolder;
         private bool _isOperationHandlerInOneFile;
@@ -51,27 +56,7 @@ namespace MediatRItemExtension.View
         private bool _isWithHandler;
         private bool _isWithValidator;
 
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MediatRItemExtensionWindow" /> class.
-        /// </summary>
-        /// <param name="projectSettings">The project settings.</param>
-        /// =================================================================================================
-        public MediatRItemExtensionWindow(UserProjectSettings projectSettings)
-        {
-            InitializeComponent();
-
-            InitDefaultArraysValue();
-            InitDefaultValues(projectSettings);
-
-            Loaded += (sender, args) =>
-            {
-                Title = "MediatR Items Creation";
-                Icon = InitResources.Base64Ico.ToBitmapImage();
-            };
-
-            DataContext = this;
-        }
+        #endregion
 
         public ObjectNameValue<OperationType>[] Operations { get; set; }
 
@@ -232,10 +217,9 @@ namespace MediatRItemExtension.View
             }
         }
 
-        public bool IsFormValid => TxTFolderFileName.IsPresent() && TxTResponseTypeName.IsPresent()
-                                                                 && Regex.Match(TxTFolderFileName ?? "",
-                                                                         @"^[a-zA-Z0-9\\_]+$", RegexOptions.IgnoreCase)
-                                                                     .Success.IsTrue();
+        public bool IsFormValid => TxTFolderFileName.IsPresent() 
+                                   && TxTResponseTypeName.IsPresent()
+                                   && Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z0-9\\_]+$", RegexOptions.IgnoreCase).Success.IsTrue();
 
         /// <inheritdoc />
         public string this[string columnName]
@@ -268,10 +252,27 @@ namespace MediatRItemExtension.View
         /// <summary>
         ///     Occurs when Property Changed.
         /// </summary>
-        ///
-        /// ### <inheritdoc/>
         /// =================================================================================================
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MediatRItemExtensionWindow" /> class.
+        /// </summary>
+        /// <param name="projectSettings">The project settings.</param>
+        /// <param name="versionCheckResult">The version check result.</param>
+        /// =================================================================================================
+        public MediatRItemExtensionWindow(UserProjectSettings projectSettings, VersionCheckResultType versionCheckResult)
+        {
+            InitializeComponent();
+            InitDefaultArraysValue();
+            InitDefaultValues(projectSettings);
+            var vsix = VsixInfoHelper.Instance.GetManifest();
+
+            Loaded += (sender, args) => { InitFieldsInfo(vsix, versionCheckResult); };
+
+            DataContext = this;
+        }
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -326,10 +327,7 @@ namespace MediatRItemExtension.View
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Routed event information.</param>
         /// =================================================================================================
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -391,6 +389,23 @@ namespace MediatRItemExtension.View
                 SelectedOperation = Operations.First(x => x.Value == OperationType.Query);
                 SelectedProcessOperation = ProcessOperations.First(x => x.Value == ProcessType.Async);
             }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Initializes the fields information.
+        /// </summary>
+        /// <param name="vsix">The vsix manifest info.</param>
+        /// <param name="versionCheckResult">The version check result.</param>
+        /// =================================================================================================
+        private void InitFieldsInfo(VsixInfo vsix, VersionCheckResultType versionCheckResult)
+        {
+            Title = "MediatR Items Creation";
+            Icon = InitResources.Base64Ico.ToBitmapImage();
+
+            TextBoxContentHelper.SetTxtBlockTextValue(ref TxtBlockVersion, $"v{vsix.Version}");
+            TextBoxContentHelper.SetTxtBlockAuthorWithLink(ref TxtBlockAuthor, InitResources.Author, vsix.MoreInfoUrl);
+            TextBoxContentHelper.SetTxtBlockValidationStatus(ref TxtBlockVersionStatus, versionCheckResult);
         }
     }
 }

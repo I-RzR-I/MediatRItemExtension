@@ -21,13 +21,14 @@ using System.Diagnostics;
 using System.Windows;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
+using MediatRItemExtension.Helpers.Localization;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 #endregion
 
-namespace MediatRItemExtension.Helpers
+namespace MediatRItemExtension.Helpers.LogHelper
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>

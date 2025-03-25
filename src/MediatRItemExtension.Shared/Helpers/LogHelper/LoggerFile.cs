@@ -22,7 +22,7 @@ using MediatRItemExtension.Extensions.DataType;
 
 #endregion
 
-namespace MediatRItemExtension.Helpers
+namespace MediatRItemExtension.Helpers.LogHelper
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>
@@ -89,6 +89,26 @@ namespace MediatRItemExtension.Helpers
 
                 var sw = File.Exists(pathFile).IsFalse() ? new StreamWriter(pathFile) : File.AppendText(pathFile);
                 sw.WriteLine(Template, DateTime.Now, packageId, "EXCEPTION", exception);
+                sw.Flush();
+                sw.Close();
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Logs the message to the given file.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// =================================================================================================
+        public static void Log(Exception exception)
+        {
+            var manifestInfo = VsixInfoHelper.Instance.GetManifest();
+            lock (Lock)
+            {
+                var pathFile = manifestInfo.LocalPath + Path.DirectorySeparatorChar + manifestInfo.DisplayName + ".log";
+
+                var sw = File.Exists(pathFile).IsFalse() ? new StreamWriter(pathFile) : File.AppendText(pathFile);
+                sw.WriteLine(Template, DateTime.Now, manifestInfo.PackageId, "EXCEPTION", exception);
                 sw.Flush();
                 sw.Close();
             }

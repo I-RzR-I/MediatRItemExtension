@@ -22,6 +22,7 @@ using EnvDTE80;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
+using MediatRItemExtension.Helpers.LogHelper;
 using MediatRItemExtension.Models;
 using Microsoft.VisualStudio.Shell;
 

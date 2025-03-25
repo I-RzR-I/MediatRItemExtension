@@ -81,5 +81,15 @@ namespace MediatRItemExtension.Models
         /// </value>
         /// =================================================================================================
         public string LocalPath { get; set; }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets or sets the more info tag with URL.
+        /// </summary>
+        /// <value>
+        ///     The repository URL.
+        /// </value>
+        /// =================================================================================================
+        public string MoreInfoUrl { get; set; }
     }
 }

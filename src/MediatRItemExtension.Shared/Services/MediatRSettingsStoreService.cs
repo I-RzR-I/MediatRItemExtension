@@ -50,6 +50,7 @@ namespace MediatRItemExtension.Services
         internal MediatRSettingsStoreService(WritableSettingsStore store)
         {
             ThrowHelper.IfNullArgumentNullException(store, nameof(store));
+
             _store = store;
         }
 
@@ -68,7 +69,7 @@ namespace MediatRItemExtension.Services
 
             var collectionPath = GetOrCreateCollectionByProject(project);
 
-            return _store.GetString(collectionPath, InitResources.KeyStore.FolderFileName,
+            return _store.GetString(collectionPath, InitResources.ProjectKeyStore.FolderFileName,
                 InitResources.DefaultClassName);
         }
 
@@ -162,17 +163,17 @@ namespace MediatRItemExtension.Services
             return new UserProjectSettings
             {
                 DefaultFolderProjectName = GetDefaultFileNameByProject(project),
-                OperationProcessing = GetStringByProject(project, InitResources.KeyStore.OperationProcessing),
+                OperationProcessing = GetStringByProject(project, InitResources.ProjectKeyStore.OperationProcessing),
 
-                CreateFolder = GetBooleanByProject(project, InitResources.KeyStore.CreateFolder),
-                CreateOperationClass = GetBooleanByProject(project, InitResources.KeyStore.CreateOperationFile),
-                CreateHandlerClass = GetBooleanByProject(project, InitResources.KeyStore.CreateHandlerFile),
-                CreateValidatorClass = GetBooleanByProject(project, InitResources.KeyStore.CreateValidationFile),
+                CreateFolder = GetBooleanByProject(project, InitResources.ProjectKeyStore.CreateFolder),
+                CreateOperationClass = GetBooleanByProject(project, InitResources.ProjectKeyStore.CreateOperationFile),
+                CreateHandlerClass = GetBooleanByProject(project, InitResources.ProjectKeyStore.CreateHandlerFile),
+                CreateValidatorClass = GetBooleanByProject(project, InitResources.ProjectKeyStore.CreateValidationFile),
 
-                IsOneFile = GetBooleanByProject(project, InitResources.KeyStore.IsOneFile),
-                IsOneFolder = GetBooleanByProject(project, InitResources.KeyStore.IsOneFolder),
-                IsOperationHandlerInOneFile = GetBooleanByProject(project, InitResources.KeyStore.IsOperationHandlerInOneFile),
-                IsAutoImportUsingReferences = GetBooleanByProject(project, InitResources.KeyStore.IsAutoImportUsingReferences)
+                IsOneFile = GetBooleanByProject(project, InitResources.ProjectKeyStore.IsOneFile),
+                IsOneFolder = GetBooleanByProject(project, InitResources.ProjectKeyStore.IsOneFolder),
+                IsOperationHandlerInOneFile = GetBooleanByProject(project, InitResources.ProjectKeyStore.IsOperationHandlerInOneFile),
+                IsAutoImportUsingReferences = GetBooleanByProject(project, InitResources.ProjectKeyStore.IsAutoImportUsingReferences)
             };
         }
 
@@ -187,16 +188,16 @@ namespace MediatRItemExtension.Services
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            SetBooleanByProject(project, InitResources.KeyStore.CreateFolder, model.CreateFolder);
-            SetBooleanByProject(project, InitResources.KeyStore.CreateOperationFile, model.CreateOperationClass);
-            SetBooleanByProject(project, InitResources.KeyStore.CreateHandlerFile, model.CreateHandlerClass);
-            SetBooleanByProject(project, InitResources.KeyStore.CreateValidationFile, model.CreateValidatorClass);
-            SetBooleanByProject(project, InitResources.KeyStore.IsOneFile, model.IsOneFile);
-            SetBooleanByProject(project, InitResources.KeyStore.IsOneFolder, model.IsOneFolder);
-            SetBooleanByProject(project, InitResources.KeyStore.IsOperationHandlerInOneFile, model.IsOperationHandlerInOneFile);
-            SetBooleanByProject(project, InitResources.KeyStore.IsAutoImportUsingReferences, model.IsAutoImportUsingReferences);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.CreateFolder, model.CreateFolder);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.CreateOperationFile, model.CreateOperationClass);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.CreateHandlerFile, model.CreateHandlerClass);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.CreateValidationFile, model.CreateValidatorClass);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.IsOneFile, model.IsOneFile);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.IsOneFolder, model.IsOneFolder);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.IsOperationHandlerInOneFile, model.IsOperationHandlerInOneFile);
+            SetBooleanByProject(project, InitResources.ProjectKeyStore.IsAutoImportUsingReferences, model.IsAutoImportUsingReferences);
 
-            SetStringByProject(project, InitResources.KeyStore.OperationProcessing, model.OperationProcessing);
+            SetStringByProject(project, InitResources.ProjectKeyStore.OperationProcessing, model.OperationProcessing);
         }
 
         /// -------------------------------------------------------------------------------------------------

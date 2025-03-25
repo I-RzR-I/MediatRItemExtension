@@ -93,5 +93,16 @@ namespace MediatRItemExtension.Extensions.DataType
 
             return imageBitmap;
         }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Builds key store.
+        /// </summary>
+        /// <param name="keys">A variable-length parameters list containing keys.</param>
+        /// <returns>
+        ///     A string.
+        /// </returns>
+        /// =================================================================================================
+        internal static string BuildKeyStore(params string[] keys) => string.Join("_", keys);
     }
 }

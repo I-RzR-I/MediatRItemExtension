@@ -18,6 +18,8 @@
 
 using System;
 using System.Collections.Generic;
+using MediatRItemExtension.Extensions.DataType;
+
 // ReSharper disable ClassNeverInstantiated.Global
 
 #endregion
@@ -141,79 +143,99 @@ namespace MediatRItemExtension.Helpers
         ///     A key store.
         /// </summary>
         /// =================================================================================================
-        internal static class KeyStore
+        internal static class ProjectKeyStore
         {
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) filename of the folder file.
             /// </summary>
             /// =================================================================================================
-            internal const string FolderFileName = ProductName + DefaultCollectionKey + "folder_file_name";
+            internal static readonly string FolderFileName = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "folder_file_name");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) pathname of the create folder.
             /// </summary>
             /// =================================================================================================
-            internal const string CreateFolder = ProductName + DefaultCollectionKey + "create_folder";
+            internal static readonly string CreateFolder = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "create_folder");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the create validation file.
             /// </summary>
             /// =================================================================================================
-            internal const string CreateValidationFile = ProductName + DefaultCollectionKey + "create_validator";
+            internal static readonly string CreateValidationFile = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "create_validator");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the create operation file.
             /// </summary>
             /// =================================================================================================
-            internal const string CreateOperationFile = ProductName + DefaultCollectionKey + "create_operation";
+            internal static readonly string CreateOperationFile = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "create_operation");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the create handler file.
             /// </summary>
             /// =================================================================================================
-            internal const string CreateHandlerFile = ProductName + DefaultCollectionKey + "create_handler";
+            internal static readonly string CreateHandlerFile = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "create_handler");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the is one file.
             /// </summary>
             /// =================================================================================================
-            internal const string IsOneFile = ProductName + DefaultCollectionKey + "one_file";
+            internal static readonly string IsOneFile = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "one_file");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) pathname of the is one folder.
             /// </summary>
             /// =================================================================================================
-            internal const string IsOneFolder = ProductName + DefaultCollectionKey + "one_folder";
+            internal static readonly string IsOneFolder = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "one_folder");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the is operation handler in one file.
             /// </summary>
             /// =================================================================================================
-            internal const string IsOperationHandlerInOneFile =
-                ProductName + DefaultCollectionKey + "one_file_operation_handler";
+            internal static readonly string IsOperationHandlerInOneFile = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "one_file_operation_handler");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the is automatic import using references.
             /// </summary>
             /// =================================================================================================
-            internal const string IsAutoImportUsingReferences =
-                ProductName + DefaultCollectionKey + "auto_import_using_references";
+            internal static readonly string IsAutoImportUsingReferences = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "auto_import_using_references");
 
             /// -------------------------------------------------------------------------------------------------
             /// <summary>
             ///     (Immutable) the operation processing.
             /// </summary>
             /// =================================================================================================
-            internal const string OperationProcessing = ProductName + DefaultCollectionKey + "process_operation";
+            internal static readonly string OperationProcessing = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "process_operation");
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     A solution key store.
+        /// </summary>
+        /// =================================================================================================
+        internal static class SolutionKeyStore
+        {
+            /// -------------------------------------------------------------------------------------------------
+            /// <summary>
+            ///     (Immutable) the last version check date.
+            /// </summary>
+            /// =================================================================================================
+            internal static readonly string LastVersionCheckDate = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "version_check_last_date");
+
+            /// -------------------------------------------------------------------------------------------------
+            /// <summary>
+            ///     (Immutable) the version check status.
+            /// </summary>
+            /// =================================================================================================
+            internal static readonly string VersionCheckStatus = StringExtensions.BuildKeyStore(ProductName, DefaultCollectionKey, "version_check_status");
         }
 
         /// -------------------------------------------------------------------------------------------------

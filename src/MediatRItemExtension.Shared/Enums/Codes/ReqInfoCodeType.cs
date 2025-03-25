@@ -23,7 +23,7 @@ namespace MediatRItemExtension.Enums.Codes
     ///     Values that represent Request Information code types.
     /// </summary>
     /// =================================================================================================
-    public enum ReqInfoCodeType
+    internal enum ReqInfoCodeType
     {
         RF0001,
         RF0002,

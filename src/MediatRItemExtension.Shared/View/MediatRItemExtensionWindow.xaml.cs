@@ -299,7 +299,7 @@ namespace MediatRItemExtension.View
             var vsix = VsixInfoHelper.Instance.GetManifest();
 
             Loaded += (sender, args) => { InitFieldsInfo(vsix, versionCheckResult); };
-
+            
             DataContext = this;
         }
 

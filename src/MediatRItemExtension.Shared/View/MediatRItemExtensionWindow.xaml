@@ -387,22 +387,21 @@
             </StackPanel>
         </Grid>
 
-        <Grid VerticalAlignment="Bottom" AllowDrop="False" Background="Gray" >
-            <!--<Border BorderBrush="Black" BorderThickness="0 2 0 0" />-->
+        <Grid VerticalAlignment="Bottom" AllowDrop="False" Background="LightGray" >
             <StackPanel Grid.Row="0" Grid.Column="0" >
                 <StatusBar 
                     DockPanel.Dock="Bottom" 
                     Background="Transparent" 
-                    Style="{StaticResource DefaultLayout}" BorderBrush="Black" BorderThickness="0 2 0 0"  >
+                    Style="{StaticResource DefaultLayout}" BorderBrush="Black" BorderThickness="0 2 0 2"  >
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid >
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="95" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="55" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="40" />
                                 </Grid.ColumnDefinitions>
@@ -412,15 +411,15 @@
                     <StatusBarItem Grid.Column="0" HorizontalAlignment="Center">
                         <TextBlock Name="TxtBlockAuthor" Text="© RzR" />
                     </StatusBarItem>
-                    <Separator Grid.Column="1" />
+                    <Separator Grid.Column="1" Width="2" />
                     <StatusBarItem Grid.Column="2">
                         <TextBlock Text="" />
                     </StatusBarItem>
-                    <Separator Grid.Column="3" />
+                    <Separator Grid.Column="3" Width="2" />
                     <StatusBarItem Grid.Column="4" HorizontalAlignment="Center">
                         <TextBlock Name="TxtBlockVersion" TextAlignment="Center" Text="0.0.0.0"/>
                     </StatusBarItem>
-                    <Separator Grid.Column="5" />
+                    <Separator Grid.Column="5" Width="2" />
                     <StatusBarItem Grid.Column="6" HorizontalAlignment="Center">
                         <TextBlock Name="TxtBlockVersionStatus">
                             ⭕

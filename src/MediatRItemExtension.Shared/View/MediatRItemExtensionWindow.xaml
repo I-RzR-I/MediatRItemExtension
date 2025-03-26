@@ -279,7 +279,7 @@
                                     Grid.ColumnSpan="2" Margin="0,10,0,0" Width="635">
                             <Label Content="Operation inheritance:" Margin="0" FontWeight="SemiBold"/>
                             <TextBox Height="25" Width="500" Margin="5,0,0,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" 
-                                     TextWrapping="NoWrap">
+                                     TextWrapping="NoWrap" IsEnabled="{Binding IsEnabledTxTOperationInheritance, Mode=TwoWay}">
                                 <TextBox.ToolTip>
                                     <StackPanel>
                                         <TextBlock>
@@ -308,7 +308,7 @@
                                     Grid.ColumnSpan="2" Margin="0,10,0,0" Width="635">
                             <Label Content="Handler inheritance:" Margin="0" FontWeight="SemiBold"/>
                             <TextBox Height="25" Width="500" Margin="16,0,0,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" 
-                                     TextWrapping="NoWrap">
+                                     TextWrapping="NoWrap" IsEnabled="{Binding IsEnabledTxTHandlerInheritance, Mode=TwoWay}">
                                 <TextBox.ToolTip>
                                     <StackPanel>
                                         <TextBlock>

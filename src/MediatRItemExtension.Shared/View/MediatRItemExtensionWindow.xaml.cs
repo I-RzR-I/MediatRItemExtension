@@ -55,6 +55,7 @@ namespace MediatRItemExtension.View
         private string _txtHandlerInheritance;
         private bool _isWithHandler;
         private bool _isWithValidator;
+        private bool _isWithOperation;
 
         #endregion
 
@@ -128,7 +129,23 @@ namespace MediatRItemExtension.View
 
         public bool IsWithFolder { get; set; }
 
-        public bool IsWithOperation { get; set; }
+        public bool IsWithOperation
+        {
+            get => _isWithOperation;
+            set
+            {
+                if (value == _isWithOperation) return;
+                _isWithOperation = value;
+
+                if (value.IsFalse())
+                    TxTOperationInheritance = string.Empty;
+
+                IsEnabledTxTOperationInheritance = value.IsTrue();
+
+                OnPropertyChanged(nameof(IsEnabledTxTOperationInheritance));
+                OnPropertyChanged(nameof(IsWithOperation));
+            }
+        }
 
         public bool IsWithHandler
         {
@@ -137,10 +154,17 @@ namespace MediatRItemExtension.View
             {
                 if (value == _isWithHandler) return;
                 _isWithHandler = value;
-                IsEnabledHandlerWithLocalizationImport = value.IsTrue();
-                IsHandlerWithLocalizationImport = false;
 
+                if (value.IsFalse())
+                    TxTHandlerInheritance = string.Empty;
+
+                IsEnabledHandlerWithLocalizationImport = value.IsTrue();
+                IsEnabledTxTHandlerInheritance = value.IsTrue();
+
+                IsHandlerWithLocalizationImport = false;
+                
                 OnPropertyChanged(nameof(IsHandlerWithLocalizationImport));
+                OnPropertyChanged(nameof(IsEnabledTxTHandlerInheritance));
                 OnPropertyChanged(nameof(IsEnabledHandlerWithLocalizationImport));
                 OnPropertyChanged(nameof(IsWithHandler));
             }
@@ -153,6 +177,7 @@ namespace MediatRItemExtension.View
             {
                 if (value == _isWithValidator) return;
                 _isWithValidator = value;
+
                 IsEnabledValidatorWithLocalizationImport = value.IsTrue();
                 IsValidatorWithLocalizationImport = false;
 
@@ -187,6 +212,10 @@ namespace MediatRItemExtension.View
 
         public bool IsEnabledHandlerWithLocalizationImport { get; set; }
 
+        public bool IsEnabledTxTHandlerInheritance { get; set; }
+
+        public bool IsEnabledTxTOperationInheritance { get; set; }
+
         public bool IsOneFolder
         {
             get => _isOneFolder;
@@ -217,7 +246,7 @@ namespace MediatRItemExtension.View
             }
         }
 
-        public bool IsFormValid => TxTFolderFileName.IsPresent() 
+        public bool IsFormValid => TxTFolderFileName.IsPresent()
                                    && TxTResponseTypeName.IsPresent()
                                    && Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z0-9\\_]+$", RegexOptions.IgnoreCase).Success.IsTrue();
 

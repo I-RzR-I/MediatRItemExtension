@@ -1,33 +1,32 @@
 ﻿// ***********************************************************************
-//  Assembly         : MediatRItemExtension.MediatRItemExtension
+//  Assembly         : MediatRItemExtension.MediatRItemExtensionV2K19
 //  Author           : RzR
-//  Created On       : 2024-05-27 19:07
+//  Created On       : 2025-03-24 15:51
 // 
 //  Last Modified By : RzR
-//  Last Modified On : 2024-05-27 19:07
+//  Last Modified On : 2025-03-24 15:51
 // ***********************************************************************
-//  <copyright file="ReqInfoCodeType.cs" company="">
-//   Copyright (c) RzR. All rights reserved.
+//  <copyright file="VersionCheckResultType.cs" company="RzR SOFT & TECH">
+//   Copyright © RzR. All rights reserved.
 //  </copyright>
 // 
 //  <summary>
 //  </summary>
 // ***********************************************************************
 
-// ReSharper disable InconsistentNaming
-
-namespace MediatRItemExtension.Enums.Codes
+namespace MediatRItemExtension.Enums
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>
-    ///     Values that represent Request Information code types.
+    ///     Values that represent version check result types.
     /// </summary>
     /// =================================================================================================
-    internal enum ReqInfoCodeType
+    public enum VersionCheckResultType
     {
-        RF0001,
-        RF0002,
-        RF0003,
-        RF0004
+        UpToDate = 0,
+
+        ExistNewVersion = 1,
+
+        ErrorCheck = 2
     }
 }

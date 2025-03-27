@@ -83,6 +83,7 @@ namespace MediatRItemExtension.Helpers
             var metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
             var identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
             var displayName = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "DisplayName");
+            var moreInfo = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "MoreInfo");
 
             return new VsixInfo
             {
@@ -90,7 +91,8 @@ namespace MediatRItemExtension.Helpers
                 PackageId = identity.GetAttribute("Id"),
                 Version = identity.GetAttribute("Version"),
                 LocalPath = currentDirectory,
-                DisplayName = displayName.InnerText
+                DisplayName = displayName.InnerText,
+                MoreInfoUrl = moreInfo.InnerText
             };
         }
     }

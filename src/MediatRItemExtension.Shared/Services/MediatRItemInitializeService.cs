@@ -20,9 +20,12 @@ using System;
 using System.ComponentModel.Design;
 using System.Windows;
 using EnvDTE;
+using MediatRItemExtension.Enums;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers;
+using MediatRItemExtension.Helpers.Localization;
+using MediatRItemExtension.Helpers.LogHelper;
 using MediatRItemExtension.Helpers.Operation;
 using MediatRItemExtension.Models;
 using MediatRItemExtension.View;
@@ -56,6 +59,13 @@ namespace MediatRItemExtension.Services
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
+        ///     The solution settings store service.
+        /// </summary>
+        /// =================================================================================================
+        private static SolutionSettingsStoreService _solutionSettingsStoreService;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
         ///     (Immutable) the package.
         /// </summary>
         /// =================================================================================================
@@ -67,6 +77,30 @@ namespace MediatRItemExtension.Services
         /// </summary>
         /// =================================================================================================
         private readonly IVsThreadedWaitDialog2 _waitDialog;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     The solution item helper.
+        /// </summary>
+        /// =================================================================================================
+        private static SolutionItemHelper _solutionItemHelper;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     The version check result.
+        /// </summary>
+        /// =================================================================================================
+        private VersionCheckResultType _versionCheckResult;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the service provider.
+        /// </summary>
+        /// <value>
+        ///     The service provider.
+        /// </value>
+        /// =================================================================================================
+        private IAsyncServiceProvider AsyncServiceProvider => _package;
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -88,23 +122,19 @@ namespace MediatRItemExtension.Services
             _mediatRSettingsStoreService = new MediatRSettingsStoreService(writableSettingsStore);
             Assumes.Present(_mediatRSettingsStoreService);
 
+            _solutionSettingsStoreService = new SolutionSettingsStoreService(writableSettingsStore);
+            Assumes.Present(_solutionSettingsStoreService);
+
             _waitDialog = _package.GetService<SVsThreadedWaitDialog, IVsThreadedWaitDialog2>();
             Assumes.Present(_waitDialog);
+
+            _solutionItemHelper = GetSolutionItem();
+            Assumes.Present(_solutionItemHelper);
 
             var menuCommandId = new CommandID(InitResources.CommandSet, InitResources.CommandId);
             var menuItem = new MenuCommand(Execute, menuCommandId);
             commandService.AddCommand(menuItem);
         }
-
-        /// -------------------------------------------------------------------------------------------------
-        /// <summary>
-        ///     Gets the service provider.
-        /// </summary>
-        /// <value>
-        ///     The service provider.
-        /// </value>
-        /// =================================================================================================
-        private IAsyncServiceProvider ServiceProvider => _package;
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -121,6 +151,7 @@ namespace MediatRItemExtension.Services
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             _ = new MediatRItemInitializeService(package, commandService);
+
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -135,26 +166,30 @@ namespace MediatRItemExtension.Services
             _ = ThreadHelper.JoinableTaskFactory.RunAsync(
                 async () =>
                 {
+                    _versionCheckResult = await VersionCheckHelper.CheckAvailableVersionAsync(
+                        _package, _solutionItemHelper.Solution, _solutionSettingsStoreService);
+                });
+
+            _ = ThreadHelper.JoinableTaskFactory.RunAsync(
+                async () =>
+                {
                     try
                     {
                         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                        var dte = await ServiceProvider.GetServiceAsync(typeof(DTE)) as DTE;
-                        Assumes.Present(dte);
-                        var slnItem = new SolutionItemHelper(dte);
 
-                        if (slnItem.HasNoSelectedItems)
+                        if (_solutionItemHelper.HasNoSelectedItems)
                         {
                             ShowMessage(ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0003], MessageBoxImage.Warning);
 
                             return;
                         }
 
-                        CreateUserSelectedOperation(slnItem);
+                        CreateUserSelectedOperation();
                     }
                     catch (Exception ex)
                     {
                         EndWaitDialog();
-                        Logger.Log(ErrorCodeType.E0003, e);
+                        Logger.Log(ErrorCodeType.E0003, ex);
                         ShowMessage(ex.Message, MessageBoxImage.Error);
                     }
                 }
@@ -165,14 +200,14 @@ namespace MediatRItemExtension.Services
         /// <summary>
         ///     Creates user selected operation.
         /// </summary>
-        /// <param name="slnItem">The selection item.</param>
+        ///
         /// =================================================================================================
-        private void CreateUserSelectedOperation(SolutionItemHelper slnItem)
+        private void CreateUserSelectedOperation()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var storedSettings = _mediatRSettingsStoreService.GetAllSettingsByProject(slnItem.SelectedProject);
-            var messageSettingsWindow = new MediatRItemExtensionWindow(storedSettings);
+            var storedSettings = _mediatRSettingsStoreService.GetAllSettingsByProject(_solutionItemHelper.SelectedProject);
+            var messageSettingsWindow = new MediatRItemExtensionWindow(storedSettings, _versionCheckResult);
             var windowResult = WindowHelper.ShowModal(messageSettingsWindow);
 
             if (windowResult.IsSuccessExecution())
@@ -189,9 +224,9 @@ namespace MediatRItemExtension.Services
                 );
 
                 var itemCreation = messageSettingsWindow.GetCreateOperationData();
-                BuildUserOperationHelper.CreateDefinedOperations(slnItem, itemCreation);
+                BuildUserOperationHelper.CreateDefinedOperations(_solutionItemHelper, itemCreation);
 
-                _mediatRSettingsStoreService.SaveUserSettings(slnItem.SelectedProject, new UserProjectSettings
+                _mediatRSettingsStoreService.SaveUserSettings(_solutionItemHelper.SelectedProject, new UserProjectSettings
                 {
                     IsOneFolder = itemCreation.IsOneFolder,
                     IsOneFile = itemCreation.IsOneFile,
@@ -233,6 +268,42 @@ namespace MediatRItemExtension.Services
         private static void ShowMessage(string message, MessageBoxImage messageBoxImage)
         {
             MessageBox.Show(message, messageBoxImage.ToString(), MessageBoxButton.OK, messageBoxImage);
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets solution item.
+        /// </summary>
+        /// <returns>
+        ///     The solution item.
+        /// </returns>
+        /// =================================================================================================
+        private SolutionItemHelper GetSolutionItem()
+        {
+            try
+            {
+                DTE localDte = null;
+                ThreadHelper.JoinableTaskFactory.Run(
+                    async () =>
+                    {
+                        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+                        localDte = await AsyncServiceProvider.GetServiceAsync(typeof(DTE)) as DTE;
+                        Assumes.Present(localDte);
+
+                        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    });
+
+                var slnItem = new SolutionItemHelper(localDte);
+
+                return slnItem;
+            }
+            catch (Exception e)
+            {
+                LoggerFile.Log(e);
+
+                return null;
+            }
         }
     }
 }

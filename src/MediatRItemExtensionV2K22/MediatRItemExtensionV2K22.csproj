@@ -94,6 +94,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Interop" Version="17.0.31902.203" />
     <PackageReference Include="envdte80" Version="17.0.31902.203" />
     <PackageReference Include="envdte90" Version="17.0.31902.203" />
+    <PackageReference Include="System.Text.Json">
+      <Version>9.0.3</Version>
+    </PackageReference>
     <!-- <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource" Version="1.1.28" /> -->
     <!-- <PackageReference Include="System.Collections.Immutable" Version="8.0.0"/> -->
   </ItemGroup>

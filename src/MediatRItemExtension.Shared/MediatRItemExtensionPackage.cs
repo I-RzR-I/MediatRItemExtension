@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Helpers;
+using MediatRItemExtension.Helpers.LogHelper;
 using MediatRItemExtension.Services;
 using Microsoft.VisualStudio.Shell;
 

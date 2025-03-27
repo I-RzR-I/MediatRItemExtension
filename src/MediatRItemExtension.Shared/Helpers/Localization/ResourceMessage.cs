@@ -21,7 +21,7 @@ using MediatRItemExtension.Enums.Codes;
 
 #endregion
 
-namespace MediatRItemExtension.Helpers
+namespace MediatRItemExtension.Helpers.Localization
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>

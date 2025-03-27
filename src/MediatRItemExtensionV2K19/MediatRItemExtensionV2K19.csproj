@@ -81,6 +81,9 @@
     <PackageReference Include="envdte80" Version="16.10.31320.204" />
     <PackageReference Include="envdte90" Version="16.10.31320.204" />
     <PackageReference Include="Microsoft.Diagnostics.Tracing.EventSource" Version="1.1.28" />
+    <PackageReference Include="System.Text.Json">
+      <Version>9.0.3</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\shared\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />

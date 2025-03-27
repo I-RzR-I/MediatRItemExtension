@@ -166,11 +166,17 @@ namespace MediatRItemExtension.Services
             _ = ThreadHelper.JoinableTaskFactory.RunAsync(
                 async () =>
                 {
+                    _versionCheckResult = await VersionCheckHelper.CheckAvailableVersionAsync(
+                        _package, _solutionItemHelper.Solution, _solutionSettingsStoreService);
+                });
+
+            _ = ThreadHelper.JoinableTaskFactory.RunAsync(
+                async () =>
+                {
                     try
                     {
                         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                        _versionCheckResult = await VersionCheckHelper.CheckAvailableVersionAsync(_package, _solutionItemHelper.Solution, _solutionSettingsStoreService);
-                        
+
                         if (_solutionItemHelper.HasNoSelectedItems)
                         {
                             ShowMessage(ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0003], MessageBoxImage.Warning);

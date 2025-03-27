@@ -1,3 +1,15 @@
+### **v3.0.0.0**
+-> Window small cosmetic adjustments;<br />
+-> Add link between create operation/handler and operation/handler inheritance;<br />
+-> Add bottom info bar;<br />
+-> Add `SolutionSettingsStoreService` solution settings store;<br />
+-> Add version check helper. Add JSON deserialization using `System.Text.Json`;<br />
+-> Adjust location for `ResourceMessage`;<br />
+-> Change visibility for `ReqInfoCodeType` enum;<br />
+-> Adjust logger file location and add new method in the file logger;<br />
+-> Add `MoreInfo` node on get manifes info;<br />
+-> Add solution key store and build keys in unique format;<br />
+
 ### **v2.1.0.0**
 -> Add optional input field: `Handler Inheritance`;<br />
 

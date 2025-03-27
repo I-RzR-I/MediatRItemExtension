@@ -434,8 +434,7 @@ namespace MediatRItemExtension.View
 
             TextBoxContentHelper.SetTxtBlockTextValue(ref TxtBlockVersion, $"v{vsix.Version}");
             TextBoxContentHelper.SetTxtBlockAuthorWithLink(ref TxtBlockAuthor, InitResources.Author, vsix.MoreInfoUrl);
-            TextBoxContentHelper.SetTxtBlockValidationStatus(ref TxtBlockVersionStatus, 
-                versionCheckResult.IsNull() ? VersionCheckResultType.ErrorCheck : versionCheckResult);
+            TextBoxContentHelper.SetTxtBlockValidationStatus(ref TxtBlockVersionStatus, versionCheckResult);
         }
     }
 }

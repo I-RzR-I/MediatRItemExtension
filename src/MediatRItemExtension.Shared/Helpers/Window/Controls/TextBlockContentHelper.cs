@@ -23,6 +23,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using MediatRItemExtension.Enums;
+using MediatRItemExtension.Extensions.DataType;
 
 // ReSharper disable UnusedParameter.Local
 
@@ -58,6 +59,8 @@ namespace MediatRItemExtension.Helpers.Window.Controls
         /// =================================================================================================
         internal static void SetTxtBlockValidationStatus(ref TextBlock txtBlock, VersionCheckResultType versionStatus)
         {
+            versionStatus = versionStatus.IsNull() ? VersionCheckResultType.ErrorCheck : versionStatus;
+
             txtBlock.Text = versionStatus switch
             {
                 VersionCheckResultType.UpToDate => "☑",

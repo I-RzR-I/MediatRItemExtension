@@ -94,7 +94,7 @@ namespace MediatRItemExtension.Helpers.Window.Controls
             };
 
             var runUpToDate = new Run("☑ -> The current extension version is up to date.");
-            var runExistNewVersion = new Run("ℹ -> Is available a new extension version.");
+            var runExistNewVersion = new Run("ℹ -> Is available a version or local vs marketplace is different.");
             var runErrorCheck = new Run("❎ -> An error occurred while try to check version status or can't be checked.");
 
             var toolTipBody = new TextBlock();

@@ -207,7 +207,7 @@ namespace MediatRItemExtension.Services
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var storedSettings = _mediatRSettingsStoreService.GetAllSettingsByProject(_solutionItemHelper.SelectedProject);
-            var messageSettingsWindow = new MediatRItemExtensionWindow(storedSettings, _versionCheckResult, _solutionItemHelper.SelectedPath);
+            var messageSettingsWindow = new MediatRItemExtensionWindow(storedSettings, _versionCheckResult, _solutionItemHelper);
             var windowResult = WindowHelper.ShowModal(messageSettingsWindow);
 
             if (windowResult.IsSuccessExecution())

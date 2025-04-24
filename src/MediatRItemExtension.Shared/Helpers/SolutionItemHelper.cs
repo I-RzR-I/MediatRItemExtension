@@ -20,6 +20,8 @@ using EnvDTE;
 using EnvDTE90;
 using MediatRItemExtension.Extensions.DataType;
 using Microsoft.VisualStudio.Shell;
+
+// ReSharper disable RedundantCast
 // ReSharper disable SuspiciousTypeConversion.Global
 
 #endregion
@@ -31,7 +33,7 @@ namespace MediatRItemExtension.Helpers
     ///     A solution item helper. This class cannot be inherited.
     /// </summary>
     /// =================================================================================================
-    internal sealed class SolutionItemHelper
+    public sealed class SolutionItemHelper
     {
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -198,6 +200,68 @@ namespace MediatRItemExtension.Helpers
                         FirstSelectedItem?.ProjectItem?.ProjectItems ?? SelectedProject?.ProjectItems;
 
                 return _selectedItemProjectItems;
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the selected item project item path.
+        /// </summary>
+        /// <value>
+        ///     The selected item project item path.
+        /// </value>
+        /// =================================================================================================
+        internal string SelectedPath
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+
+                try
+                {
+                    var obj = FirstSelectedItem.ProjectItem;
+                    var properties = ((ProjectItem)obj).Properties;
+
+                    var filePath = properties.Item("LocalPath").Value.ToString();
+
+                    return filePath.SubstringAt(SelectedProject.Name).TruncatePath()
+                        .Replace("\\", "/");
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Check if the user entered folder name is used or not.
+        /// </summary>
+        /// <value>
+        ///     The folder name check result.
+        /// </value>
+        /// =================================================================================================
+        internal bool AlreadyExistItem(string itemName)
+        {
+            if (itemName.IsMissing()) return false;
+
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+
+                for (var i = 1; i <= SelectedItemProjectItems.Count; i++)
+                {
+                    var itemCheck = SelectedItemProjectItems.Item(i).Name == itemName;
+                    if (itemCheck.IsTrue()) return true;
+
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

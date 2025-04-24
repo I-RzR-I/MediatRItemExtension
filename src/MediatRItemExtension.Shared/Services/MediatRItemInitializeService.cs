@@ -127,10 +127,7 @@ namespace MediatRItemExtension.Services
 
             _waitDialog = _package.GetService<SVsThreadedWaitDialog, IVsThreadedWaitDialog2>();
             Assumes.Present(_waitDialog);
-
-            _solutionItemHelper = GetSolutionItem();
-            Assumes.Present(_solutionItemHelper);
-
+            
             var menuCommandId = new CommandID(InitResources.CommandSet, InitResources.CommandId);
             var menuItem = new MenuCommand(Execute, menuCommandId);
             commandService.AddCommand(menuItem);
@@ -151,7 +148,6 @@ namespace MediatRItemExtension.Services
 
             var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             _ = new MediatRItemInitializeService(package, commandService);
-
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -163,6 +159,9 @@ namespace MediatRItemExtension.Services
         /// =================================================================================================
         private void Execute(object sender, EventArgs e)
         {
+            _solutionItemHelper = GetSolutionItem();
+            Assumes.Present(_solutionItemHelper);
+
             _ = ThreadHelper.JoinableTaskFactory.RunAsync(
                 async () =>
                 {
@@ -188,9 +187,10 @@ namespace MediatRItemExtension.Services
                     }
                     catch (Exception ex)
                     {
-                        EndWaitDialog();
                         Logger.Log(ErrorCodeType.E0003, ex);
                         ShowMessage(ex.Message, MessageBoxImage.Error);
+
+                        EndWaitDialog();
                     }
                 }
             );
@@ -207,7 +207,7 @@ namespace MediatRItemExtension.Services
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var storedSettings = _mediatRSettingsStoreService.GetAllSettingsByProject(_solutionItemHelper.SelectedProject);
-            var messageSettingsWindow = new MediatRItemExtensionWindow(storedSettings, _versionCheckResult);
+            var messageSettingsWindow = new MediatRItemExtensionWindow(storedSettings, _versionCheckResult, _solutionItemHelper);
             var windowResult = WindowHelper.ShowModal(messageSettingsWindow);
 
             if (windowResult.IsSuccessExecution())
@@ -294,9 +294,7 @@ namespace MediatRItemExtension.Services
                         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     });
 
-                var slnItem = new SolutionItemHelper(localDte);
-
-                return slnItem;
+                return new SolutionItemHelper(localDte);
             }
             catch (Exception e)
             {

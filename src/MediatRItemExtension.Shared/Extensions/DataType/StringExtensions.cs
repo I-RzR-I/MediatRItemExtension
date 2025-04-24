@@ -20,6 +20,8 @@ using System;
 using System.IO;
 using System.Windows.Media.Imaging;
 
+// ReSharper disable StringIndexOfIsCultureSpecific.1
+
 #endregion
 
 namespace MediatRItemExtension.Extensions.DataType
@@ -104,5 +106,51 @@ namespace MediatRItemExtension.Extensions.DataType
         /// </returns>
         /// =================================================================================================
         internal static string BuildKeyStore(params string[] keys) => string.Join("_", keys);
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Substring source string at specified search text index.
+        /// </summary>
+        /// <param name="source">Source string to substring.</param>
+        /// <param name="searchText">Search text.</param>
+        /// <returns>
+        ///     A string.
+        /// </returns>
+        /// =================================================================================================
+        internal static string SubstringAt(this string source, string searchText)
+        {
+            if (source.IsMissing() || searchText.IsMissing()) return string.Empty;
+
+            var indexOf = source.IndexOf(searchText);
+            if (indexOf > -1)
+            {
+                return source.Substring(indexOf, source.Length - indexOf);
+            }
+            else
+                return source;
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Truncate selected item path.
+        /// </summary>
+        /// <param name="path">Selected project item path.</param>
+        /// <param name="maxLength">The maximum allowed length. Default value = 90.</param>
+        /// <returns>
+        ///     A string.
+        /// </returns>
+        /// =================================================================================================
+        internal static string TruncatePath(this string path, int maxLength = 90)
+        {
+            if (path.IsMissing()) return string.Empty;
+
+            if (path.Length >= maxLength)
+            {
+                var startIdx = path.Length - maxLength + 3;
+
+                return $"...{path.Substring(startIdx, path.Length - startIdx)}";
+            }
+            else return $"...{path}";
+        }
     }
 }

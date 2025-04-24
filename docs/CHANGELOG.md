@@ -1,3 +1,9 @@
+### **v3.1.0.0**
+-> [FIX] - Adjust/fix the solution selected item when the user selects a different project for the next x time after the first selection;<br />
+-> [DEV] - Add method to get selected project item path;<br />
+-> [DEV] - Add folder name check method;<br />
+-> [DEV] - Adjust message for ℹ symbol;<br />
+
 ### **v3.0.0.0**
 -> Window small cosmetic adjustments;<br />
 -> Add link between create operation/handler and operation/handler inheritance;<br />

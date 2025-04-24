@@ -42,7 +42,8 @@ namespace MediatRItemExtension.Helpers.Localization
                 { ReqInfoCodeType.RF0001, "File/folder name type can't be empty." },
                 { ReqInfoCodeType.RF0002, "Response type can't be empty." },
                 { ReqInfoCodeType.RF0003, "Project or folder is not selected, please select one of them." },
-                { ReqInfoCodeType.RF0004, "File/folder name is not valid." }
+                { ReqInfoCodeType.RF0004, "File/folder name is not valid." },
+                { ReqInfoCodeType.RF0005, "File/folder name already exist." }
             };
 
         /// -------------------------------------------------------------------------------------------------

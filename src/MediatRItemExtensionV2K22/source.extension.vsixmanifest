@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="MediatRItemExtension.00000000-0000-E000-AAAA-000000002022" Version="3.0.0.0" Language="en-US" Publisher="RzR" />
+        <Identity Id="MediatRItemExtension.00000000-0000-E000-AAAA-000000002022" Version="3.1.0.0" Language="en-US" Publisher="RzR" />
         <DisplayName>MediatRItemExtensionV2K22</DisplayName>
         <Description xml:space="preserve">MediatR extension allow create easlly way command/query, handler, and validator</Description>
         <MoreInfo xml:space="preserve">https://github.com/I-RzR-I/MediatRItemExtension</MoreInfo>

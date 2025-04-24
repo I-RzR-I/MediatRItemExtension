@@ -191,7 +191,7 @@
                 </Grid.ColumnDefinitions>
 
                 <GroupBox Header="Import references" Foreground="Gray">
-                    <Grid Margin="0,0,0,5" Height="Auto">
+                    <Grid Margin="0,0,0,0" Height="Auto">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>

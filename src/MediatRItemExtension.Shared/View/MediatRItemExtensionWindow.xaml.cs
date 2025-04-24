@@ -291,12 +291,13 @@ namespace MediatRItemExtension.View
         /// <param name="projectSettings">The project settings.</param>
         /// <param name="versionCheckResult">The version check result.</param>
         /// =================================================================================================
-        public MediatRItemExtensionWindow(UserProjectSettings projectSettings, VersionCheckResultType versionCheckResult)
+        public MediatRItemExtensionWindow(UserProjectSettings projectSettings, VersionCheckResultType versionCheckResult, string selectedPath)
         {
             InitializeComponent();
             InitDefaultArraysValue();
             InitDefaultValues(projectSettings);
             var vsix = VsixInfoHelper.Instance.GetManifest();
+            TxTCurrentSelectedPath.Text = selectedPath;
 
             Loaded += (sender, args) => { InitFieldsInfo(vsix, versionCheckResult); };
             

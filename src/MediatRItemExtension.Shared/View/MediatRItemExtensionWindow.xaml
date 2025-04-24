@@ -35,7 +35,7 @@
     </platformUi:DialogWindow.Resources>
 
     <Grid x:Name="LayoutRoot">
-        <Grid Margin="5,5,5,60" Height="Auto">
+        <Grid Margin="5,5,5,85" Height="Auto">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -338,24 +338,42 @@
         </Grid>
 
         <!-- Buttons grid | bottom-->
-        <Grid AllowDrop="False" Background="Gray" Height="50" HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Bottom">
+        <Grid AllowDrop="False" Background="Gray" Height="60" HorizontalAlignment="Stretch" Margin="0,0,0,22" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <!--<RowDefinition Height="1" />-->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <Label Content="Folder/file name:" Style="{StaticResource DefaultLayout}" Margin="0" FontWeight="SemiBold"/>
-                <TextBox Height="25" Width="345" Margin="0,10,0,10" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
-                    <TextBox.ToolTip>
-                        <StackPanel>
-                            <TextBlock>
-                                Required. Complete the name of the folder (also the same name of classes).
-                            </TextBlock>
-                            <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
-                            <WrapPanel>
+            <Grid Grid.Row="0" Grid.ColumnSpan="3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Label Content="Selected path:" Style="{StaticResource DefaultLayout}" Margin="0" FontWeight="SemiBold"/>
+                    <TextBlock Name="TxTCurrentSelectedPath" Text="" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+
+            </Grid>
+
+            <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="0 -10 0 0">
+                <Rectangle HorizontalAlignment="Stretch" Fill="LightGray" Height="1"/>
+            </Grid>-->
+
+            <Grid Grid.Row="1" Grid.Column="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Label Content="Folder/file name:" Style="{StaticResource DefaultLayout}" Margin="0" FontWeight="SemiBold"/>
+                    <TextBox Height="25" Width="345" Margin="0,0,0,5" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            <StackPanel>
                                 <TextBlock>
+                                Required. Complete the name of the folder (also the same name of classes).
+                                </TextBlock>
+                                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8" />
+                                <WrapPanel>
+                                    <TextBlock>
                                     Example: Generate the query request.
                                     <LineBreak />
                                     '<Run FontWeight="Black">TempOperation</Run>' is as the folder name.
@@ -365,26 +383,30 @@
                                     <Run FontStyle="Italic"><![CDATA[public class TempOperationHandler : IRequestHandler<TempOperationQuery, IEnumerable<string>>{ ... }]]></Run>
                                     <LineBreak />
                                     <Run FontStyle="Italic"><![CDATA[public class TempOperationValidator : AbstractValidator<TempOperationQuery> { ... }]]></Run>
-                                </TextBlock>
-                            </WrapPanel>
-                        </StackPanel>
-                    </TextBox.ToolTip>
-                    <TextBox.Text>
-                        <Binding Path="TxTFolderFileName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </StackPanel>
+                                    </TextBlock>
+                                </WrapPanel>
+                            </StackPanel>
+                        </TextBox.ToolTip>
+                        <TextBox.Text>
+                            <Binding Path="TxTFolderFileName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1"  Margin="40,0,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Content="Ok" IsDefault="True" IsEnabled="{Binding IsFormValid}" Click="Ok_Click"
+                            Style="{StaticResource DefaultLayout}" Margin="0,0,10,5" Height="25" Width="85"/>
+                    <Button Content="Cancel" IsCancel="True" Click="Cancel_Click"
+                            Style="{StaticResource DefaultLayout}" Margin="0,0,0,5" Height="25" Width="85"/>
+                </StackPanel>
+            </Grid>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Content="Ok" IsDefault="True" IsEnabled="{Binding IsFormValid}" Click="Ok_Click"
-                        Style="{StaticResource DefaultLayout}" Margin="10" Height="25" Width="85"/>
-                <Button Content="Cancel" IsCancel="True" Click="Cancel_Click"
-                        Style="{StaticResource DefaultLayout}" Margin="10" Height="25" Width="85"/>
-            </StackPanel>
+
         </Grid>
 
         <Grid VerticalAlignment="Bottom" AllowDrop="False" Background="LightGray" >

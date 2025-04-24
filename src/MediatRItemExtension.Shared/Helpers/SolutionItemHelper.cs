@@ -33,7 +33,7 @@ namespace MediatRItemExtension.Helpers
     ///     A solution item helper. This class cannot be inherited.
     /// </summary>
     /// =================================================================================================
-    internal sealed class SolutionItemHelper
+    public sealed class SolutionItemHelper
     {
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -223,7 +223,7 @@ namespace MediatRItemExtension.Helpers
                     var properties = ((ProjectItem)obj).Properties;
 
                     var filePath = properties.Item("LocalPath").Value.ToString();
-                    
+
                     return filePath.SubstringAt(SelectedProject.Name).TruncatePath()
                         .Replace("\\", "/");
                 }
@@ -231,6 +231,37 @@ namespace MediatRItemExtension.Helpers
                 {
                     return "";
                 }
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Check if the user entered folder name is used or not.
+        /// </summary>
+        /// <value>
+        ///     The folder name check result.
+        /// </value>
+        /// =================================================================================================
+        internal bool AlreadyExistItem(string itemName)
+        {
+            if (itemName.IsMissing()) return false;
+
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+
+                for (var i = 1; i <= SelectedItemProjectItems.Count; i++)
+                {
+                    var itemCheck = SelectedItemProjectItems.Item(i).Name == itemName;
+                    if (itemCheck.IsTrue()) return true;
+
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

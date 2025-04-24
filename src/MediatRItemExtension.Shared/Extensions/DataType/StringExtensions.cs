@@ -135,12 +135,12 @@ namespace MediatRItemExtension.Extensions.DataType
         ///     Truncate selected item path.
         /// </summary>
         /// <param name="path">Selected project item path.</param>
-        /// <param name="maxLength">The maximum allowed length. Default value = 115.</param>
+        /// <param name="maxLength">The maximum allowed length. Default value = 90.</param>
         /// <returns>
         ///     A string.
         /// </returns>
         /// =================================================================================================
-        internal static string TruncatePath(this string path, int maxLength = 115)
+        internal static string TruncatePath(this string path, int maxLength = 90)
         {
             if (path.IsMissing()) return string.Empty;
 

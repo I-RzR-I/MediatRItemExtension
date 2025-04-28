@@ -1,3 +1,7 @@
+### **v3.2.0.0**
+-> [FIX] - Fix how the selected path is shown and add at the end of the path '/';<br />
+-> [DEV] - Add validation to allow selecting only a project or a project item, except for solution;<br />
+
 ### **v3.1.0.0**
 -> [FIX] - Adjust/fix the solution selected item when the user selects a different project for the next x time after the first selection;<br />
 -> [DEV] - Add method to get selected project item path;<br />

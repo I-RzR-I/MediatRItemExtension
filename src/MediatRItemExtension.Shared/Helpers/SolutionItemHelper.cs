@@ -202,6 +202,37 @@ namespace MediatRItemExtension.Helpers
                 return _selectedItemProjectItems;
             }
         }
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Check if current selected item is solution on not.
+        /// </summary>
+        /// <value>
+        ///     Solution check result.
+        /// </value>
+        /// <remarks>
+        ///     Solution check are implemented by file name.
+        /// </remarks>
+        /// =================================================================================================
+        internal bool IsSolutionSelected
+        {
+            get
+            {
+                try
+                {
+                    ThreadHelper.ThrowIfNotOnUIThread();
+
+                    var selectedItemName = FirstSelectedItem.Name;
+                    var slnPath = FirstSelectedItem.DTE.Solution.FileName.Split('\\');
+                    var solutionName = slnPath[slnPath.Length - 1].Replace(".sln", string.Empty);
+                    
+                    return selectedItemName.Equals(solutionName);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -220,12 +251,15 @@ namespace MediatRItemExtension.Helpers
                 try
                 {
                     var obj = FirstSelectedItem.ProjectItem;
-                    var properties = ((ProjectItem)obj).Properties;
+                    if (obj.IsNotNull())
+                    {
+                        var properties = ((ProjectItem)obj).Properties;
 
-                    var filePath = properties.Item("LocalPath").Value.ToString();
+                        var filePath = properties.Item("LocalPath").Value.ToString();
 
-                    return filePath.SubstringAt(SelectedProject.Name).TruncatePath()
-                        .Replace("\\", "/");
+                        return filePath.SubstringAt(SelectedProject.Name).TruncateAndSetToPath();
+                    }
+                    else return SelectedProject.Name.TruncateAndSetToPath();
                 }
                 catch
                 {

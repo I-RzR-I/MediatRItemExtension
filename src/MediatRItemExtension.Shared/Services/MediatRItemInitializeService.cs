@@ -162,6 +162,13 @@ namespace MediatRItemExtension.Services
             _solutionItemHelper = GetSolutionItem();
             Assumes.Present(_solutionItemHelper);
 
+            if (_solutionItemHelper.IsSolutionSelected)
+            {
+                ShowMessage(ResourceMessage.ErrorMessagesStore[ErrorCodeType.E0011], MessageBoxImage.Information);
+                
+                return;
+            }
+
             _ = ThreadHelper.JoinableTaskFactory.RunAsync(
                 async () =>
                 {

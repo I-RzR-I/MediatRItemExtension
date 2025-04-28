@@ -140,17 +140,22 @@ namespace MediatRItemExtension.Extensions.DataType
         ///     A string.
         /// </returns>
         /// =================================================================================================
-        internal static string TruncatePath(this string path, int maxLength = 90)
+        internal static string TruncateAndSetToPath(this string path, int maxLength = 90)
         {
             if (path.IsMissing()) return string.Empty;
+            string tmpPath;
 
             if (path.Length >= maxLength)
             {
-                var startIdx = path.Length - maxLength + 3;
+                var startIdx = path.Length - maxLength + 4;
 
-                return $"...{path.Substring(startIdx, path.Length - startIdx)}";
+                tmpPath = $"...{path.Substring(startIdx, path.Length - startIdx)}";
             }
-            else return $"...{path}";
+            else tmpPath = $"...{path}";
+
+            var newPath = tmpPath.Replace("\\", "/");
+
+            return newPath.EndsWith("/") ? newPath : $"{newPath}/";
         }
     }
 }

@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VersionCheckHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VsixInfoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VsThemeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\MediatRItemExtensionWindowMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View\MediatRItemExtensionWindowProps.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediatRItemExtensionPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CreateOperation.cs" />

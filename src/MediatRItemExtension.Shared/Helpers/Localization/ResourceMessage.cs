@@ -65,7 +65,9 @@ namespace MediatRItemExtension.Helpers.Localization
                 { ErrorCodeType.E0008, "General error occurred on add handler implementation in one file. Error: {0}" },
                 { ErrorCodeType.E0009, "General error occurred on add handler implementation in new file. Error: {0}" },
                 { ErrorCodeType.E0010, "General error occurred on create request operation. Error: {0}" },
-                { ErrorCodeType.E0011, "A solution selection is not permitted. Allowed item is project or project items." }
+                { ErrorCodeType.E0011, "A solution selection is not permitted. Allowed item is project or project items." },
+                { ErrorCodeType.E0012, "Maximum path length exceeded" },
+                { ErrorCodeType.E0013, "The operation/handler or validation class full path length is exceeded (>= 248 chars) and may cause problems. Would you like to continue?" }
             };
     }
 }

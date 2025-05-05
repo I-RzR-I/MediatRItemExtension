@@ -1,3 +1,6 @@
+### **v3.3.0.0**
+-> [DEV] - Add validation for maximum allowed path length;<br />
+
 ### **v3.2.0.0**
 -> [FIX] - Fix how the selected path is shown and add at the end of the path '/';<br />
 -> [DEV] - Add validation to allow selecting only a project or a project item, except for solution;<br />

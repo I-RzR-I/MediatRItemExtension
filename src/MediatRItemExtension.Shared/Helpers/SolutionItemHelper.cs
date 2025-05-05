@@ -270,6 +270,43 @@ namespace MediatRItemExtension.Helpers
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
+        ///     Gets the selected item project item full path.
+        /// </summary>
+        /// <value>
+        ///     The selected item project item full path.
+        /// </value>
+        /// =================================================================================================
+        internal string SelectedOriginFullPath
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+
+                try
+                {
+                    var path = string.Empty;
+                    var obj = FirstSelectedItem.ProjectItem;
+                    if (obj.IsNotNull())
+                    {
+                        var properties = ((ProjectItem)obj).Properties;
+
+                        path = properties.Item("FullPath").Value.ToString();
+                    }
+
+                    path = path.Replace("\\", "/");
+                    path = path.EndsWith("/") ? path : $"{path}/";
+
+                    return path;
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
         ///     Check if the user entered folder name is used or not.
         /// </summary>
         /// <value>

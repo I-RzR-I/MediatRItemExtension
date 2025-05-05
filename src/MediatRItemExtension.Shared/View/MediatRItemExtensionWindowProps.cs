@@ -32,6 +32,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace MediatRItemExtension.View
 {
+    /// <inheritdoc cref="MediatRItemExtensionWindow"/>
     public partial class MediatRItemExtensionWindow
     {
         #region PRIVATE FIELDS
@@ -291,7 +292,6 @@ namespace MediatRItemExtension.View
         /// </summary>
         /// =================================================================================================
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>

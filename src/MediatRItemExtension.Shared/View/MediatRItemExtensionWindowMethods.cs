@@ -98,7 +98,7 @@ namespace MediatRItemExtension.View
                 var opProcess = ProcessOperations.FirstOrDefault(x => x.Name ==
                                                                       ((projectSettings?.OperationProcessing ?? "")
                                                                           .IsNullOrEmpty()
-                                                                              ? ProcessType.Async.ToString()
+                                                                              ? nameof(ProcessType.Async)
                                                                               : projectSettings?.OperationProcessing));
                 SelectedProcessOperation = opProcess.IsNull()
                     ? ProcessOperations.First(x => x.Value == ProcessType.Async)

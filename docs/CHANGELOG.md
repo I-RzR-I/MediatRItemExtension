@@ -1,3 +1,7 @@
+### **v3.4.0.0**
+-> [FIX] - Fix possible cases when the cancellation token is not added;<br />
+-> [DEV] - Add default value for cancellation token on async action;<br />
+
 ### **v3.3.0.0**
 -> [DEV] - Add validation for maximum allowed path length;<br />
 

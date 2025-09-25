@@ -156,7 +156,7 @@ namespace MediatRItemExtension.Services
         /// </summary>
         /// <param name="solution3">The solution.</param>
         /// <returns>
-        ///     The or create collection by project.
+        ///     The collection name by project.
         /// </returns>
         /// =================================================================================================
         private string GetOrCreateCollectionByProject(Solution3 solution3)

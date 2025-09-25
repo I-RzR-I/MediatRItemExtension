@@ -53,7 +53,6 @@ namespace MediatRItemExtension.Helpers.Operation
         {
             try
             {
-
                 ThreadHelper.ThrowIfNotOnUIThread();
                 var requestProjectItem = projectItems.AddFromTemplate(classTemplate, $"{model.OperationName}.cs");
 

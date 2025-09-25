@@ -23,10 +23,19 @@ namespace MediatRItemExtension.Enums
     /// =================================================================================================
     public enum VersionCheckResultType
     {
+        /// <summary>
+        ///     An enum constant representing the option that the local version is last.
+        /// </summary>
         UpToDate = 0,
 
+        /// <summary>
+        ///     An enum constant representing the option that a new version exists.
+        /// </summary>
         ExistNewVersion = 1,
 
+        /// <summary>
+        ///     An enum constant representing the error in checking the new version.
+        /// </summary>
         ErrorCheck = 2
     }
 }

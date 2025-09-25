@@ -181,7 +181,10 @@ namespace MediatRItemExtension.Helpers.Operation
                 handler.AddParameter("request", model.OperationName, requestPosition);
 
                 if (model.OperationProcessing == ProcessType.Async)
-                    handler.AddParameter("cancellationToken", "CancellationToken", -1);
+                {
+                    var cancellationTokenParam = handler.AddParameter("cancellationToken", "CancellationToken", -1);
+                    cancellationTokenParam.EndPoint.CreateEditPoint().Insert(" = default");
+                }
 
                 handler.StartPoint.CreateEditPoint().ReplaceText(0, model.HandlerAccessor,
                     (int)vsEPReplaceTextOptions.vsEPReplaceTextAutoformat);

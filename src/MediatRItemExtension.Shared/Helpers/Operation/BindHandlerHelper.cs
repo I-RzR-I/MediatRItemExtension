@@ -177,7 +177,9 @@ namespace MediatRItemExtension.Helpers.Operation
                     model.HandlerHandleReturnValueName,
                     -1);
 
-                handler.AddParameter("request", model.OperationName, -1);
+                var requestPosition = model.OperationProcessing == ProcessType.Async ? 0 : -1;
+                handler.AddParameter("request", model.OperationName, requestPosition);
+
                 if (model.OperationProcessing == ProcessType.Async)
                     handler.AddParameter("cancellationToken", "CancellationToken", -1);
 

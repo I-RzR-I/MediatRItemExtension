@@ -1,3 +1,9 @@
+### **v3.5.0.0**
+-> [DEV] - Add the possibilitiy to create `Stream` operation;<br />
+-> [DEV] - Add the possibilitiy to select the operation bp: `Class` or `Record`;<br />
+-> [DEV] - Add validation for physical item existence (it may be excluded from the solution);<br />
+-> [DEV] - Add the possibilitiy to see the changelog info;<br />
+
 ### **v3.4.0.0**
 -> [FIX] - Fix possible cases when the cancellation token is not added;<br />
 -> [DEV] - Add default value for cancellation token on async action;<br />

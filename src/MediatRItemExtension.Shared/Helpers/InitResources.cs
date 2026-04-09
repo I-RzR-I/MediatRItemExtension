@@ -101,7 +101,7 @@ namespace MediatRItemExtension.Helpers
         ///     (Immutable) the VSIX version.
         /// </summary>
         /// =================================================================================================
-        internal const string Version = "3.4.0.0";
+        internal const string Version = "3.5.0.0";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>

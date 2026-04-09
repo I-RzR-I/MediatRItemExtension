@@ -32,7 +32,7 @@ Select a project or a folder form the solution:<br />
  As result you will see the main window of interaction.
  
   <div align="center" width="100%">
- <img src="assets/main_window_v3.1.0.0.png"
+ <img src="assets/main_window_v3.5.0.0.png"
      alt="Main window"
      style="float: center;" 
      width="100%"/> <br />
@@ -47,10 +47,15 @@ The first option is `operation type`:<br />
 -> `Query` - Create a query concept (get/extract information);<br />
 -> `Command` - Create a command concept (add/edit/delete information);<br />
 -> `Notification` - Create a notification concept.<br />
+-> `Stream` - Create a stream concept.<br />
 
 The second option is `process operation` type:<br />
 -> `Sync`;<br />
 -> `Async`. <br />
+
+The third option is `Operation blueprint` type:<br />
+-> `Class`;<br />
+-> `Record`. <br />
 
 The third option (*required field*) is operation response type input.
 

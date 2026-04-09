@@ -141,6 +141,9 @@ namespace MediatRItemExtension.View
             TextBoxContentHelper.SetTxtBlockTextValue(ref TxtBlockVersion, $"v{vsix.Version}");
             TextBoxContentHelper.SetTxtBlockAuthorWithLink(ref TxtBlockAuthor, InitResources.Author, vsix.MoreInfoUrl);
             TextBoxContentHelper.SetTxtBlockValidationStatus(ref TxtBlockVersionStatus, versionCheckResult);
+
+            var changelogPath = System.IO.Path.Combine(vsix.LocalPath, "Properties", "CHANGELOG.md");
+            TextBoxContentHelper.SetTxtBlockChangelogLink(ref TxtBlockChangelog, changelogPath);
         }
 
         /// -------------------------------------------------------------------------------------------------

@@ -110,6 +110,10 @@
       <Link>Properties\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="..\..\docs\CHANGELOG.md">
+      <Link>Properties\CHANGELOG.md</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
   <Import Project="..\MediatRItemExtension.Shared\MediatRItemExtension.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -456,10 +456,16 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="95" />
                                     <ColumnDefinition Width="Auto" />
+
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    
                                     <ColumnDefinition Width="75" />
                                     <ColumnDefinition Width="Auto" />
+
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="Auto" />
+
                                     <ColumnDefinition Width="40" />
                                 </Grid.ColumnDefinitions>
                             </Grid>
@@ -469,15 +475,23 @@
                         <TextBlock Name="TxtBlockAuthor" Text="© RzR" />
                     </StatusBarItem>
                     <Separator Grid.Column="1" Width="2" />
+
                     <StatusBarItem Grid.Column="2">
                         <TextBlock Text="" />
                     </StatusBarItem>
                     <Separator Grid.Column="3" Width="2" />
+                    
                     <StatusBarItem Grid.Column="4" HorizontalAlignment="Center">
                         <TextBlock Name="TxtBlockVersion" TextAlignment="Center" Text="0.0.0.0"/>
                     </StatusBarItem>
                     <Separator Grid.Column="5" Width="2" />
+
                     <StatusBarItem Grid.Column="6" HorizontalAlignment="Center">
+                        <TextBlock Name="TxtBlockChangelog" Text="⭕"/>
+                    </StatusBarItem>
+                    <Separator Grid.Column="7" Width="2" />
+
+                    <StatusBarItem Grid.Column="8" HorizontalAlignment="Center">
                         <TextBlock Name="TxtBlockVersionStatus">
                             ⭕
                         </TextBlock>

@@ -51,6 +51,7 @@ namespace MediatRItemExtension.View
 
                 Operation = SelectedOperation.Value,
                 OperationProcessing = SelectedProcessOperation.Value,
+                OperationBlueprint = SelectedOperationBlueprint.Value,
 
                 CreateFolder = IsWithFolder,
                 CreateOperationClass = IsWithOperation,
@@ -76,6 +77,7 @@ namespace MediatRItemExtension.View
         {
             Operations = EnumExtensions.ToNameValues<OperationType>().ToArray();
             ProcessOperations = EnumExtensions.ToNameValues<ProcessType>().ToArray();
+            OperationBlueprints = EnumExtensions.ToNameValues<OperationBlueprintType>().ToArray();
         }
 
         /// -------------------------------------------------------------------------------------------------
@@ -103,6 +105,9 @@ namespace MediatRItemExtension.View
                 SelectedProcessOperation = opProcess.IsNull()
                     ? ProcessOperations.First(x => x.Value == ProcessType.Async)
                     : opProcess;
+
+                SelectedOperationBlueprint = OperationBlueprints.First(x => x.Value == OperationBlueprintType.Class);
+
                 IsOneFolder = projectSettings!.IsOneFolder;
                 IsOneFile = projectSettings.IsOneFile;
                 IsOperationHandlerInOneFile = projectSettings.IsOperationHandlerInOneFile;
@@ -117,6 +122,7 @@ namespace MediatRItemExtension.View
             {
                 SelectedOperation = Operations.First(x => x.Value == OperationType.Query);
                 SelectedProcessOperation = ProcessOperations.First(x => x.Value == ProcessType.Async);
+                SelectedOperationBlueprint = OperationBlueprints.First(x => x.Value == OperationBlueprintType.Class);
             }
         }
 
@@ -135,6 +141,9 @@ namespace MediatRItemExtension.View
             TextBoxContentHelper.SetTxtBlockTextValue(ref TxtBlockVersion, $"v{vsix.Version}");
             TextBoxContentHelper.SetTxtBlockAuthorWithLink(ref TxtBlockAuthor, InitResources.Author, vsix.MoreInfoUrl);
             TextBoxContentHelper.SetTxtBlockValidationStatus(ref TxtBlockVersionStatus, versionCheckResult);
+
+            var changelogPath = System.IO.Path.Combine(vsix.LocalPath, "Properties", "CHANGELOG.md");
+            TextBoxContentHelper.SetTxtBlockChangelogLink(ref TxtBlockChangelog, changelogPath);
         }
 
         /// -------------------------------------------------------------------------------------------------

@@ -19,6 +19,7 @@
 using System;
 using EnvDTE;
 using EnvDTE80;
+using MediatRItemExtension.Enums;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
@@ -39,7 +40,7 @@ namespace MediatRItemExtension.Helpers.Operation
     {
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
-        ///     Creates request operation (Query/Command/Notification class).
+        ///     Creates request operation (Query/Command/Notification/Stream class).
         /// </summary>
         /// <param name="projectItems">The project items.</param>
         /// <param name="model">The model.</param>
@@ -64,6 +65,19 @@ namespace MediatRItemExtension.Helpers.Operation
                 codeClass.Access = vsCMAccess.vsCMAccessPublic;
 
                 codeClass.AddClassInheritance(model.RequestInterface);
+
+                if (model.OperationBlueprint == OperationBlueprintType.Record)
+                {
+                    // Convert 'class' keyword to 'record' in the declaration line
+                    var editPoint = codeClass.StartPoint.CreateEditPoint();
+                    editPoint.StartOfLine();
+
+                    var lineEnd = editPoint.CreateEditPoint();
+                    lineEnd.EndOfLine();
+
+                    var declarationLine = editPoint.GetText(lineEnd);
+                    editPoint.ReplaceText(lineEnd, declarationLine.ReplaceExact("class ", "record "), 0);
+                }
 
                 return codeClass;
             }

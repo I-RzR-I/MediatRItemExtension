@@ -51,9 +51,8 @@ namespace MediatRItemExtension.Helpers.Operation
 
                 var folderProjectItems = GetCurrentSelectedOrCreateNewFolder(slnItemHelper, model);
 
-                if (model.CreateOperationClass.IsTrue())
-                    classCode = BuildOperationHelper.CreateRequestOperation(folderProjectItems, model,
-                        slnItemHelper.DefaultClassTemplate);
+                if (model.CreateOperationClass.IsTrue()) 
+                    classCode = BuildOperationHelper.CreateRequestOperation(folderProjectItems, model, slnItemHelper.DefaultClassTemplate);
 
                 var handler = BindHandlerHelper.Instance;
                 var validator = BindValidatorHelper.Instance;

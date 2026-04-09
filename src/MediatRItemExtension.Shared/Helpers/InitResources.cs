@@ -87,8 +87,8 @@ namespace MediatRItemExtension.Helpers
         ///     (Immutable) the default class name.
         /// </summary>
         /// =================================================================================================
-        internal const string DefaultClassName = "Class";
-
+        internal const string DefaultClassName = "MediatRItemClass";
+        
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     (Immutable) the default collection key.
@@ -101,7 +101,7 @@ namespace MediatRItemExtension.Helpers
         ///     (Immutable) the VSIX version.
         /// </summary>
         /// =================================================================================================
-        internal const string Version = "3.4.0.0";
+        internal const string Version = "3.5.0.0";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Codes\ErrorCodeType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Codes\ReqInfoCodeType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\OperationBlueprintType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\OperationType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ProcessType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\VersionCheckResultType.cs" />
@@ -23,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\CodeClassExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\FileCodeModel2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Env\ProjectItemsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ItemsTemplateHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Window\Controls\TextBlockContentHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InitResources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\LogHelper\Logger.cs" />

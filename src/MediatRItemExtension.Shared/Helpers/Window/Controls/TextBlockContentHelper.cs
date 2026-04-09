@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using MediatRItemExtension.Enums;
 using MediatRItemExtension.Extensions.DataType;
@@ -154,6 +155,74 @@ namespace MediatRItemExtension.Helpers.Window.Controls
                 args.Handled = true;
             };
             hyperlink.Foreground = Brushes.Black;
+            hyperlink.TextDecorations = new TextDecorationCollection();
+
+            txtBlock.Inlines.Clear();
+            txtBlock.Inlines.Add(hyperlink);
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Sets text block changelog link.
+        /// </summary>
+        /// <param name="txtBlock">[in,out] The text block.</param>
+        /// <param name="changelogPath">Full pathname of the changelog file.</param>
+        /// =================================================================================================
+        internal static void SetTxtBlockChangelogLink(ref TextBlock txtBlock, string changelogPath)
+        {
+            var toolTip = new ToolTip();
+            var stackPanel = new StackPanel();
+            var titleBlock = new TextBlock
+            {
+                Text = "MediatR item extension CHANGELOG",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var titleBorder = new Border
+            {
+                BorderBrush = Brushes.Silver,
+                BorderThickness = new Thickness(0, 1, 0, 1),
+                Margin = new Thickness(0, 8, 0, 0)
+            };
+
+            txtBlock.Cursor = Cursors.Hand;
+
+            var toolTipBody = new TextBlock();
+            toolTipBody.Inlines.Clear();
+            toolTipBody.Inlines.Add(new Run("🔄 -> Show full changelog data."));
+
+            var panel = new WrapPanel();
+            panel.Children.Add(toolTipBody);
+
+            stackPanel.Children.Add(titleBlock);
+            stackPanel.Children.Add(titleBorder);
+            stackPanel.Children.Add(panel);
+
+            toolTip.Content = stackPanel;
+            txtBlock.ToolTip = toolTip;
+
+            if (changelogPath.IsNullOrEmpty() || !System.IO.File.Exists(changelogPath))
+            {
+                txtBlock.Text = "🔄";
+
+                return;
+            }
+
+            var hyperlink = new Hyperlink(new Run("🔄"))
+            {
+                NavigateUri = new Uri(changelogPath),
+                
+            };
+
+            hyperlink.RequestNavigate += (sender, args) =>
+            {
+                Process.Start(new ProcessStartInfo(args.Uri.LocalPath));
+                args.Handled = true;
+            };
+
+            hyperlink.Foreground = Brushes.Blue;
+            hyperlink.TextDecorations = new TextDecorationCollection();
 
             txtBlock.Inlines.Clear();
             txtBlock.Inlines.Add(hyperlink);

@@ -113,6 +113,10 @@
       <Link>Properties\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="..\..\docs\CHANGELOG.md">
+      <Link>Properties\CHANGELOG.md</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Assets\MCSharp_120x120.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

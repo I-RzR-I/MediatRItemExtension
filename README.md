@@ -14,7 +14,8 @@ From the box are available functionalities as:
 * Specify the name of the folder/file;
 * Use one name for the folder/file where will be stored information;
 * Select option if you want to add `IStringLocalizer` to Validator or/and to the Handler;
-* Specify any base class which will be added to the operation class (`Query`, `Command`, `Notification`).
+* Specify any base class which will be added to the operation class (`Query`, `Command`, `Notification`, `Stream`);
+* Add possibility to select for the operation a bp: `Class` or `Record`.
 
 
 To understand more efficiently how you can use available functionalities please consult the [using documentation/file](docs/usage.md).

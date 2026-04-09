@@ -16,7 +16,7 @@
 
 #region U S A G E S
 
-using System;
+using System.IO;
 using EnvDTE;
 using EnvDTE90;
 using MediatRItemExtension.Extensions.DataType;
@@ -376,12 +376,18 @@ namespace MediatRItemExtension.Helpers
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
+                // Check in solution if item exist
                 for (var i = 1; i <= SelectedItemProjectItems.Count; i++)
                 {
                     var itemCheck = SelectedItemProjectItems.Item(i).Name == itemName;
                     if (itemCheck.IsTrue()) return true;
 
                 }
+
+                // Check if item physical exist (it may be excluded from the solution)
+                var physicalPath = Path.Combine(SelectedOriginFullPath, itemName);
+                if (Directory.Exists(physicalPath) || File.Exists(physicalPath))
+                    return true;
 
                 return false;
             }

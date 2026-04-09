@@ -14,6 +14,8 @@
 //  </summary>
 // ***********************************************************************
 
+using System.ComponentModel;
+
 namespace MediatRItemExtension.Models
 {
     /// -------------------------------------------------------------------------------------------------
@@ -22,8 +24,10 @@ namespace MediatRItemExtension.Models
     /// </summary>
     /// <typeparam name="T">Generic type parameter.</typeparam>
     /// =================================================================================================
-    public class ObjectNameValue<T>
+    public class ObjectNameValue<T> : INotifyPropertyChanged
     {
+        private bool _isEnabled = true;
+
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     Gets or sets the name.
@@ -43,5 +47,26 @@ namespace MediatRItemExtension.Models
         /// </value>
         /// =================================================================================================
         public T Value { get; set; }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets or sets a value indicating whether this object is enabled.
+        /// </summary>
+        /// <value>
+        ///     True if this object is enabled, false if not.
+        /// </value>
+        /// =================================================================================================
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (_isEnabled == value) return;
+                _isEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnabled)));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

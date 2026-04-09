@@ -190,6 +190,8 @@ namespace MediatRItemExtension.Models
         /// =================================================================================================
         internal ProcessType OperationProcessing { get; set; }
 
+        internal OperationBlueprintType OperationBlueprint { get; set; }
+
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     Gets the request handler indent.
@@ -248,7 +250,9 @@ namespace MediatRItemExtension.Models
         ///     The handler accessor.
         /// </value>
         /// =================================================================================================
-        internal string HandlerAccessor => OperationProcessing == ProcessType.Sync ? "protected override " : "public async ";
+        internal string HandlerAccessor => OperationProcessing == ProcessType.Sync 
+            ? Operation == OperationType.Stream ? "public " : "protected override " 
+            : "public async ";
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -265,11 +269,23 @@ namespace MediatRItemExtension.Models
                 string interfaceStr;
                 if (OperationProcessing == ProcessType.Sync)
                 {
-                    interfaceStr = Operation == OperationType.Notification ? " :{0} NotificationHandler" : " :{0} RequestHandler";
+                    //interfaceStr = Operation == OperationType.Notification ? " :{0} NotificationHandler" : " :{0} RequestHandler";
+                    interfaceStr = Operation switch
+                    {
+                        OperationType.Stream => " :{0} IStreamRequestHandler",
+                        OperationType.Notification => " :{0} NotificationHandler",
+                        _ => " :{0} RequestHandler"
+                    };
                 }
                 else
                 {
-                    interfaceStr = Operation == OperationType.Notification ? " :{0} INotificationHandler" : " :{0} IRequestHandler";
+                    //interfaceStr = Operation == OperationType.Notification ? " :{0} INotificationHandler" : " :{0} IRequestHandler";
+                    interfaceStr = Operation switch
+                    {
+                        OperationType.Stream => " :{0} IStreamRequestHandler",
+                        OperationType.Notification => " :{0} INotificationHandler",
+                        _ => " :{0} IRequestHandler"
+                    };
                 }
 
                 interfaceStr = $"{string.Format(interfaceStr, HandlerInheritance.IsNullOrEmpty() ? "" : $" {HandlerInheritance},")}<{OperationName}, {ResponseTypeName}>";
@@ -292,16 +308,20 @@ namespace MediatRItemExtension.Models
             {
                 if (OperationProcessing == ProcessType.Sync)
                 {
-                    return "void";
+                    return Operation switch
+                    {
+                        OperationType.Stream => "IAsyncEnumerable" + $"<{ResponseTypeName}>",
+                        _ => "void"
+                    };
                 }
                 else
                 {
-                    if (Operation == OperationType.Notification)
+                    return Operation switch
                     {
-                        return "Task";
-                    }
-
-                    return "Task" + $"<{ResponseTypeName}>";
+                        OperationType.Stream => "IAsyncEnumerable" + $"<{ResponseTypeName}>",
+                        OperationType.Notification => "Task",
+                        _ => "Task" + $"<{ResponseTypeName}>"
+                    };
                 }
             }
         }
@@ -318,7 +338,13 @@ namespace MediatRItemExtension.Models
         {
             get
             {
-                var interfaceStr = Operation == OperationType.Notification ? "INotification" : "IRequest";
+                var interfaceStr = Operation switch
+                {
+                    OperationType.Notification => "INotification",
+                    OperationType.Stream => "IStreamRequest",
+                    _ => "IRequest"
+                };
+                //var interfaceStr = Operation == OperationType.Notification ? "INotification" : "IRequest";
 
                 return OperationInheritance.IsNullOrEmpty()
                     ? $" : {interfaceStr}<{ResponseTypeName}>"

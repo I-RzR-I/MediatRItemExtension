@@ -17,6 +17,7 @@
 #region U S A G E S
 
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using MediatRItemExtension.Enums;
 using MediatRItemExtension.Enums.Codes;
@@ -42,6 +43,7 @@ namespace MediatRItemExtension.View
         private bool _isOperationHandlerInOneFile;
         private ObjectNameValue<OperationType> _selectedOperation;
         private ObjectNameValue<ProcessType> _selectedProcessOperation;
+        private ObjectNameValue<OperationBlueprintType> _selectedOperationBlueprint;
         private string _txTFolderFileName;
         private string _txTResponseTypeName;
         private string _txtOperationInheritance;
@@ -55,6 +57,7 @@ namespace MediatRItemExtension.View
         public ObjectNameValue<OperationType>[] Operations { get; set; }
 
         public ObjectNameValue<ProcessType>[] ProcessOperations { get; set; }
+        public ObjectNameValue<OperationBlueprintType>[] OperationBlueprints { get; set; }
 
         public string TxTFolderFileName
         {
@@ -106,6 +109,17 @@ namespace MediatRItemExtension.View
             set
             {
                 _selectedOperation = value;
+
+                if (value.Value == OperationType.Stream)
+                {
+                    _selectedProcessOperation = ProcessOperations.First(x => x.Value == ProcessType.Async);
+                    IsEnabledProcessOperation = false;
+                }
+                else
+                    IsEnabledProcessOperation = true;
+
+                OnPropertyChanged(nameof(SelectedProcessOperation));
+                OnPropertyChanged(nameof(IsEnabledProcessOperation));
                 OnPropertyChanged(nameof(SelectedOperation));
             }
         }
@@ -116,7 +130,22 @@ namespace MediatRItemExtension.View
             set
             {
                 _selectedProcessOperation = value;
+
+                var stream = Operations.First(x => x.Value == OperationType.Stream);
+                stream.IsEnabled = value.Value != ProcessType.Sync;
+
                 OnPropertyChanged(nameof(SelectedProcessOperation));
+                OnPropertyChanged(nameof(SelectedOperation));
+            }
+        }
+
+        public ObjectNameValue<OperationBlueprintType> SelectedOperationBlueprint
+        {
+            get => _selectedOperationBlueprint;
+            set
+            {
+                _selectedOperationBlueprint = value;
+                OnPropertyChanged(nameof(SelectedOperationBlueprint));
             }
         }
 
@@ -206,6 +235,8 @@ namespace MediatRItemExtension.View
         public bool IsEnabledHandlerWithLocalizationImport { get; set; }
 
         public bool IsEnabledTxTHandlerInheritance { get; set; }
+
+        public bool IsEnabledProcessOperation { get; set; } = true;
 
         public bool IsEnabledTxTOperationInheritance { get; set; }
 

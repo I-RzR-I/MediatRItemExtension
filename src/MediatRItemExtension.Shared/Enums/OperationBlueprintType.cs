@@ -1,13 +1,13 @@
 ﻿// ***********************************************************************
 //  Assembly         : MediatRItemExtension.MediatRItemExtension
 //  Author           : RzR
-//  Created On       : 2024-05-08 12:34
+//  Created On       : 2026-04-08 17:04
 // 
 //  Last Modified By : RzR
-//  Last Modified On : 2024-05-08 12:34
+//  Last Modified On : 2026-04-08 17:40
 // ***********************************************************************
-//  <copyright file="OperationType.cs" company="">
-//   Copyright (c) RzR. All rights reserved.
+//  <copyright file="OperationBlueprintType.cs" company="RzR SOFT & TECH">
+//   Copyright © RzR. All rights reserved.
 //  </copyright>
 // 
 //  <summary>
@@ -18,29 +18,19 @@ namespace MediatRItemExtension.Enums
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>
-    ///     Values that represent operation types.
+    ///     Values that represent operation blueprint types.
     /// </summary>
     /// =================================================================================================
-    public enum OperationType
+    public enum OperationBlueprintType
     {
         /// <summary>
-        ///     An enum constant representing the query option.
+        ///     An enum constant representing the class option.
         /// </summary>
-        Query,
+        Class,
 
         /// <summary>
-        ///     An enum constant representing the command option.
+        ///     An enum constant representing the record option.
         /// </summary>
-        Command,
-        
-        /// <summary>
-        ///     An enum constant representing the notification option.
-        /// </summary>
-        Notification,
-
-        /// <summary>
-        ///     An enum constant representing the stream option.
-        /// </summary>
-        Stream
+        Record
     }
 }

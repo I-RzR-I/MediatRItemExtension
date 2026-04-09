@@ -16,9 +16,11 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
 using EnvDTE90;
 using MediatRItemExtension.Extensions.DataType;
+using MediatRItemExtension.Shared.Helpers;
 using Microsoft.VisualStudio.Shell;
 
 // ReSharper disable RedundantCast
@@ -48,6 +50,20 @@ namespace MediatRItemExtension.Helpers
         /// </summary>
         /// =================================================================================================
         private string _defaultClassTemplate;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     The default record template.
+        /// </summary>
+        /// =================================================================================================
+        private string _defaultCustomRecordTemplate;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     The default items template path.
+        /// </summary>
+        /// =================================================================================================
+        private string _defaultItemsTemplatePath;
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -175,10 +191,49 @@ namespace MediatRItemExtension.Helpers
             get
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
-                if (_defaultClassTemplate.IsNull())
+                if (_defaultClassTemplate.IsNullOrEmpty())
                     _defaultClassTemplate = Solution.GetProjectItemTemplate("Class", "CSharp");
 
                 return _defaultClassTemplate;
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the default custom record template.
+        /// </summary>
+        /// <value>
+        ///     The default custom record template.
+        /// </value>
+        /// =================================================================================================
+        internal string DefaultCustomRecordTemplate
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                if (_defaultCustomRecordTemplate.IsNullOrEmpty())
+                    _defaultCustomRecordTemplate = ItemsTemplateHelper.CreateCustomRecordTemplate();
+
+                return _defaultCustomRecordTemplate;
+            }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the default items template path.
+        /// </summary>
+        /// <value>
+        ///     The default items template path.
+        /// </value>
+        /// =================================================================================================
+        internal string DefaultItemsTemplatePath
+        {
+            get
+            {
+                if (_defaultItemsTemplatePath.IsNullOrEmpty())
+                    _defaultItemsTemplatePath = ItemsTemplateHelper.GetOrCreateInternalItemsTemplatePath();
+
+                return _defaultItemsTemplatePath;
             }
         }
 
@@ -224,7 +279,7 @@ namespace MediatRItemExtension.Helpers
                     var selectedItemName = FirstSelectedItem.Name;
                     var slnPath = FirstSelectedItem.DTE.Solution.FileName.Split('\\');
                     var solutionName = slnPath[slnPath.Length - 1].Replace(".sln", string.Empty);
-                    
+
                     return selectedItemName.Equals(solutionName);
                 }
                 catch

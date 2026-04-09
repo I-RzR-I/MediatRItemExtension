@@ -87,8 +87,8 @@ namespace MediatRItemExtension.Helpers
         ///     (Immutable) the default class name.
         /// </summary>
         /// =================================================================================================
-        internal const string DefaultClassName = "Class";
-
+        internal const string DefaultClassName = "MediatRItemClass";
+        
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
         ///     (Immutable) the default collection key.

@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 
 // ReSharper disable StringIndexOfIsCultureSpecific.1
@@ -156,6 +157,41 @@ namespace MediatRItemExtension.Extensions.DataType
             var newPath = tmpPath.Replace("\\", "/");
 
             return newPath.EndsWith("/") ? newPath : $"{newPath}/";
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     A string extension method that if null then empty.
+        /// </summary>
+        /// <param name="source">The source to act on.</param>
+        /// <returns>
+        ///     A string.
+        /// </returns>
+        /// =================================================================================================
+        internal static string IfNullThenEmpty(this string source) => source ?? string.Empty;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     A string extension method that replace exact.
+        /// </summary>
+        /// <param name="input">The input to act on.</param>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
+        /// <returns>
+        ///     A string.
+        /// </returns>
+        /// =================================================================================================
+        internal static string ReplaceExact(this string input, string oldValue, string newValue)
+        {
+            if (input.IfNullThenEmpty().IsMissing()) 
+                return null;
+
+            if (oldValue.IfNullThenEmpty().IsMissing()) 
+                return input;
+
+            var pattern = $@"\b{Regex.Escape(oldValue)}\b";
+
+            return Regex.Replace(input, pattern, newValue, RegexOptions.None);
         }
     }
 }

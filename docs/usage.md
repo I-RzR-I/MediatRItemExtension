@@ -32,7 +32,7 @@ Select a project or a folder form the solution:<br />
  As result you will see the main window of interaction.
  
   <div align="center" width="100%">
- <img src="assets/main_window_v3.5.0.0.png"
+ <img src="assets/main_window_v3.5.1.0.png"
      alt="Main window"
      style="float: center;" 
      width="100%"/> <br />
@@ -55,13 +55,13 @@ The second option is `process operation` type:<br />
 
 The third option is `Operation blueprint` type:<br />
 -> `Class`;<br />
--> `Record`. <br />
+-> `Record` - supported in all file-layout modes (one file, per file, operation+handler in one file). <br />
 
-The third option (*required field*) is operation response type input.
+The fourth option (*required field*) is operation response type input.
 
-The fourth block with options/checkboxes which allows to create of specific files, folders, and import-related references.
+The fifth block with options/checkboxes allows you to control file creation, folder creation, and auto-import of using references.
 
-The fifth option (*required field*) is the name of the folder where information will be stored (also used for the class's name).
+The sixth option (*required field*) is the name of the folder where information will be stored (also used for the class's name).
 
 <hr />
 
@@ -103,7 +103,7 @@ namespace ProjectNamespace.GetArticle
     }
 }
 ```
-When the user specify anything in the `Operation inheritance` input, the new file before the `INotification/IRequest` will be added base classs (specified field value).
+When the user specifies anything in the `Operation inheritance` input, the specified value is inserted as a base class before the MediatR interface in the operation class declaration.
 
 ```csharp
 public class GetArticleQuery : BaseClass, IRequest<int>

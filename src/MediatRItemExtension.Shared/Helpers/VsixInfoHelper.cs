@@ -58,6 +58,7 @@ namespace MediatRItemExtension.Helpers
             var assemblyUri = new UriBuilder(assembly.CodeBase);
             var assemblyPath = Uri.UnescapeDataString(assemblyUri.Path);
             var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
+            //var assemblyDirectory = Path.GetDirectoryName(Path.GetFullPath(assembly.Location));
 
             return GetVsixInfo(assemblyDirectory, "extension.vsixmanifest");
         }

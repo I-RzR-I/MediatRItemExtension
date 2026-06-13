@@ -18,6 +18,7 @@
 
 using System;
 using EnvDTE;
+using MediatRItemExtension.Enums;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Helpers.LogHelper;
@@ -51,7 +52,8 @@ namespace MediatRItemExtension.Helpers.Operation
 
                 var folderProjectItems = GetCurrentSelectedOrCreateNewFolder(slnItemHelper, model);
 
-                if (model.CreateOperationClass.IsTrue()) 
+                // Always use the class template; for Record the keyword swap happens after all code-model work (below).
+                if (model.CreateOperationClass.IsTrue())
                     classCode = BuildOperationHelper.CreateRequestOperation(folderProjectItems, model, slnItemHelper.DefaultClassTemplate);
 
                 var handler = BindHandlerHelper.Instance;
@@ -84,6 +86,11 @@ namespace MediatRItemExtension.Helpers.Operation
                         validator.CreateRequestValidator(folderProjectItems, model,
                             slnItemHelper.DefaultClassTemplate);
                 }
+
+                // All code-model calls are done and the file is still all-classes. Convert ONLY the
+                // operation's "class" keyword to "record"; handler/validator on other lines stay classes.
+                if (model.OperationBlueprint == OperationBlueprintType.Record && model.CreateOperationClass.IsTrue())
+                    BuildOperationHelper.ConvertOperationClassToRecord(folderProjectItems, model);
 
                 slnItemHelper.SelectedProject.Save();
             }

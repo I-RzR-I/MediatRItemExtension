@@ -16,6 +16,7 @@
 
 #region U S A G E S
 
+using System;
 using EnvDTE;
 using MediatRItemExtension.Helpers;
 using Microsoft.VisualStudio.Shell;
@@ -54,6 +55,28 @@ namespace MediatRItemExtension.Extensions.Env
                 foreach (var child in codeNamespace.Children)
                     if (child is CodeClass codeClass && codeClass.Name == className)
                         return codeClass;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        ///     Finds the first ProjectItem whose file name matches (case-insensitive). Returns null if none.
+        /// </summary>
+        /// <param name="projectItems">The ProjectItems collection to search.</param>
+        /// <param name="fileName">The file name to match, e.g. "FooQuery.cs".</param>
+        /// <returns>The matching ProjectItem, or null.</returns>
+        internal static ProjectItem GetProjectItemByFileName(this ProjectItems projectItems, string fileName)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            ThrowHelper.IfNullArgumentNullException(projectItems, nameof(projectItems));
+            ThrowHelper.IfNullArgumentNullException(fileName, nameof(fileName));
+
+            for (var i = 1; i <= projectItems.Count; i++)
+            {
+                var item = projectItems.Item(i);
+                if (string.Equals(item.Name, fileName, StringComparison.OrdinalIgnoreCase))
+                    return item;
             }
 
             return null;

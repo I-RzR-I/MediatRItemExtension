@@ -103,6 +103,9 @@ namespace $rootnamespace$
             var tempDir = GetOrCreateInternalItemsTemplatePath();
             tempDir = Path.Combine(tempDir, "RzRRecordTemplate");
 
+            if (Directory.Exists(tempDir).IsFalse())
+                Directory.CreateDirectory(tempDir);
+
             var csPath = Path.Combine(tempDir, "RzRRecordTemplate.cs");
             var vsTemplatePath = Path.Combine(tempDir, "RzRRecordTemplate.vstemplate");
 
@@ -112,7 +115,7 @@ namespace $rootnamespace$
             if (File.Exists(vsTemplatePath).IsFalse())
                 File.WriteAllText(vsTemplatePath, RecordTemplateFile);
 
-            return tempDir;
+            return vsTemplatePath;
         }
     }
 }

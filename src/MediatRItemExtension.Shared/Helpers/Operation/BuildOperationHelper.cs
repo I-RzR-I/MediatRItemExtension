@@ -19,7 +19,6 @@
 using System;
 using EnvDTE;
 using EnvDTE80;
-using MediatRItemExtension.Enums;
 using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 using MediatRItemExtension.Extensions.Env;
@@ -66,19 +65,6 @@ namespace MediatRItemExtension.Helpers.Operation
 
                 codeClass.AddClassInheritance(model.RequestInterface);
 
-                if (model.OperationBlueprint == OperationBlueprintType.Record)
-                {
-                    // Convert 'class' keyword to 'record' in the declaration line
-                    var editPoint = codeClass.StartPoint.CreateEditPoint();
-                    editPoint.StartOfLine();
-
-                    var lineEnd = editPoint.CreateEditPoint();
-                    lineEnd.EndOfLine();
-
-                    var declarationLine = editPoint.GetText(lineEnd);
-                    editPoint.ReplaceText(lineEnd, declarationLine.ReplaceExact("class ", "record "), 0);
-                }
-
                 return codeClass;
             }
             catch (Exception e)
@@ -86,6 +72,43 @@ namespace MediatRItemExtension.Helpers.Operation
                 Logger.Log(ErrorCodeType.E0010, e);
 
                 return null;
+            }
+        }
+
+        /// <summary>
+        ///     Re-acquires the operation's CodeClass (still a class at this point) and replaces the
+        ///     `class` keyword with `record` on its declaration line only. Call after all code-model
+        ///     work on the file is complete and before saving.
+        /// </summary>
+        /// <param name="folderProjectItems">The folder ProjectItems that own the operation file.</param>
+        /// <param name="model">The operation model.</param>
+        internal static void ConvertOperationClassToRecord(ProjectItems folderProjectItems, CreateOperation model)
+        {
+            try
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+
+                var operationItem = folderProjectItems.GetProjectItemByFileName($"{model.OperationName}.cs");
+                if (operationItem.IsNull())
+                    return;
+
+                var codeClass = operationItem.FindCodeClassByName(model.OperationName);
+                if (codeClass.IsNull())
+                    return;
+
+                var startEdit = codeClass.StartPoint.CreateEditPoint();
+                startEdit.StartOfLine();
+                var endEdit = startEdit.CreateEditPoint();
+                endEdit.EndOfLine();
+
+                var declarationLine = startEdit.GetText(endEdit);
+                var updatedLine = declarationLine.ReplaceExact("class", "record");
+
+                startEdit.ReplaceText(endEdit, updatedLine, (int)vsEPReplaceTextOptions.vsEPReplaceTextKeepMarkers);
+            }
+            catch (Exception e)
+            {
+                Logger.Log(ErrorCodeType.E0010, e);
             }
         }
     }

@@ -291,7 +291,7 @@ namespace MediatRItemExtension.View
 
                 var isValid = TxTFolderFileName.IsPresent()
                     && TxTResponseTypeName.IsPresent()
-                    && Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z0-9\\_]+$", RegexOptions.IgnoreCase).Success.IsTrue();
+                    && Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.IgnoreCase).Success.IsTrue();
 
                 if (isValid.IsFalse())
                     return false;
@@ -321,6 +321,12 @@ namespace MediatRItemExtension.View
                         if (TxTFolderFileName.IsMissing())
                         {
                             error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0001];
+                            break;
+                        }
+
+                        if (Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.IgnoreCase).Success.IsFalse())
+                        {
+                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0004];
                             break;
                         }
 

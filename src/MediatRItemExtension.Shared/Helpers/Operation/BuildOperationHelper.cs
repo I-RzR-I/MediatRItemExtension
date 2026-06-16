@@ -90,11 +90,19 @@ namespace MediatRItemExtension.Helpers.Operation
 
                 var operationItem = folderProjectItems.GetProjectItemByFileName($"{model.OperationName}.cs");
                 if (operationItem.IsNull())
+                {
+                    Logger.Log(ErrorCodeType.E0010, $"Could not re-acquire operation '{model.OperationName}' to convert class->record; left as class.");
+                    
                     return;
+                }
 
                 var codeClass = operationItem.FindCodeClassByName(model.OperationName);
                 if (codeClass.IsNull())
+                {
+                    Logger.Log(ErrorCodeType.E0010, $"Could not find CodeClass '{model.OperationName}' to convert class->record; left as class.");
+                    
                     return;
+                }
 
                 var startEdit = codeClass.StartPoint.CreateEditPoint();
                 startEdit.StartOfLine();

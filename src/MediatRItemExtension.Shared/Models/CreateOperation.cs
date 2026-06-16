@@ -16,7 +16,9 @@
 
 #region U S A G E S
 
+using System.Collections.Generic;
 using MediatRItemExtension.Enums;
+using MediatRItemExtension.Enums.Codes;
 using MediatRItemExtension.Extensions.DataType;
 
 #endregion
@@ -350,6 +352,32 @@ namespace MediatRItemExtension.Models
                     ? $" : {interfaceStr}<{ResponseTypeName}>"
                     : $" : {OperationInheritance}, {interfaceStr}<{ResponseTypeName}>";
             }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Enumerates the files that will be generated for this operation, honoring the selected
+        ///     file-layout (one file / operation+handler in one file / per file). Pure (no EnvDTE) so it
+        ///     can be reused for pre-generation collision validation and unit-tested.
+        /// </summary>
+        /// <returns>
+        ///     The descriptors (collision code, file name and type name) of each file that would be created.
+        /// </returns>
+        /// =================================================================================================
+        internal IEnumerable<GeneratedFileInfo> GetGeneratedFiles()
+        {
+            var files = new List<GeneratedFileInfo>();
+
+            if (CreateOperationClass.IsTrue())
+                files.Add(new GeneratedFileInfo(ReqInfoCodeType.RF0006, $"{OperationName}.cs", OperationName));
+
+            if (CreateHandlerClass.IsTrue() && IsOneFile.IsFalse() && IsOperationHandlerInOneFile.IsFalse())
+                files.Add(new GeneratedFileInfo(ReqInfoCodeType.RF0007, $"{HandlerName}.cs", HandlerName));
+
+            if (CreateValidatorClass.IsTrue() && IsOneFile.IsFalse())
+                files.Add(new GeneratedFileInfo(ReqInfoCodeType.RF0008, $"{ValidatorName}.cs", ValidatorName));
+
+            return files;
         }
     }
 }

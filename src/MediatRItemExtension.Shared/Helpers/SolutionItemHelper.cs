@@ -16,6 +16,7 @@
 
 #region U S A G E S
 
+using System;
 using System.IO;
 using EnvDTE;
 using EnvDTE90;
@@ -379,7 +380,7 @@ namespace MediatRItemExtension.Helpers
                 // Check in solution if item exist
                 for (var i = 1; i <= SelectedItemProjectItems.Count; i++)
                 {
-                    var itemCheck = SelectedItemProjectItems.Item(i).Name == itemName;
+                    var itemCheck = string.Equals(SelectedItemProjectItems.Item(i).Name, itemName, StringComparison.OrdinalIgnoreCase);
                     if (itemCheck.IsTrue()) return true;
 
                 }

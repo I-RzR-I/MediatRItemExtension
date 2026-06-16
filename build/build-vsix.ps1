@@ -1,6 +1,6 @@
 $projects = @(
     "..\src\MediatRItemExtensionV2K19\MediatRItemExtensionV2K19.csproj",
-    "..\src\MediatRItemExtensionV2K19\MediatRItemExtensionV2K22.csproj"
+    "..\src\MediatRItemExtensionV2K22\MediatRItemExtensionV2K22.csproj"
 )
 
 $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"

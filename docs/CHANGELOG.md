@@ -1,3 +1,10 @@
+### **v3.5.2.0**
+-> [DEV] - Add validation when `Create folder` is unchecked: the extension now checks whether the operation (and, per layout, its handler and validator) already exists in the selected directory and blocks creation to prevent overwriting existing files;<br />
+-> [FIX] - Fix the existing-item check to be case-insensitive so an operation whose name differs only in casing is correctly detected as a collision on Windows file systems;<br />
+-> [FIX] - Validate the operation/folder name as a valid C# identifier; names containing invalid characters (e.g. `\`) or starting with a digit are now rejected with a clear "name is not valid" message;<br />
+-> [FIX] - Improve dialog responsiveness by caching the directory existence snapshot and removing redundant validation calls that previously ran on every keystroke;<br />
+-> [FIX] - Harden manifest loading and logging so a missing or invalid `extension.vsixmanifest` no longer causes the extension to fail on load;<br />
+
 ### **v3.5.1.0**
 -> [FIX] - Fix `Record` blueprint generation when operation and handler (and/or validator) are placed in the same file;<br />
 -> [FIX] - Fix log entry formatting for multiline values (e.g. exception stack traces now stay aligned inside the log comment block);<br />

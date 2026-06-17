@@ -14,7 +14,7 @@ It targets developers working in Visual Studio 2019 or 2022 (also work on 2026) 
 Activate the extension from any project folder via right-click → **MediatR Items Creation**, or with the keyboard shortcut `SHIFT + INSERT + M`.
 
   <div align="center" width="100%">
- <img src="docs/assets/main_window_v3.5.1.0.png"
+ <img src="docs/assets/main_window_v3.5.2.0.png"
      alt="Main window"
      style="float: center;" 
      width="100%"/> <br />

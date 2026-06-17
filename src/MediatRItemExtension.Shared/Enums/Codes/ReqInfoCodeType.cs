@@ -29,6 +29,9 @@ namespace MediatRItemExtension.Enums.Codes
         RF0002,
         RF0003,
         RF0004,
-        RF0005
+        RF0005,
+        RF0006,
+        RF0007,
+        RF0008
     }
 }

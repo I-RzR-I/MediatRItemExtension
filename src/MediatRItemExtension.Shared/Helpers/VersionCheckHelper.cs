@@ -106,6 +106,14 @@ namespace MediatRItemExtension.Helpers
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
                     var vsixInfo = VsixInfoHelper.Instance.GetManifest();
+                    if (vsixInfo.IsNull())
+                    {
+                        solSettingsStore.SetLastVersionCheckDate(solution, DateTime.Now);
+                        solSettingsStore.SetLastVersionCheckResult(solution, VersionCheckResultType.ErrorCheck);
+
+                        return VersionCheckResultType.ErrorCheck;
+                    }
+
                     var apiResult = await ExecuteApiRequestAsync($"{InitResources.Author}.{vsixInfo.DisplayName}");
                     if (apiResult.IsNull())
                     {

@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Window\Controls\TextBlockContentHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InitResources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\LogHelper\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\LogHelper\LogEntryFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\LogHelper\LoggerFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BindHandlerHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Operation\BindValidatorHelper.cs" />
@@ -43,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)View\MediatRItemExtensionWindowProps.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediatRItemExtensionPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CreateOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GeneratedFileInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\VersionCheckResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ObjectNameValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserProjectSettings.cs" />

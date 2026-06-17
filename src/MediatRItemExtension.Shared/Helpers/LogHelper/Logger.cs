@@ -92,6 +92,13 @@ namespace MediatRItemExtension.Helpers.LogHelper
                 if (EnsurePane())
                     _pane.OutputString($"{DateTime.Now}: [{keyCode}] {message}{Environment.NewLine}");
 
+                if (manifestInfo.IsNull())
+                {
+                    Debug.Write($"{DateTime.Now}: [{keyCode}] {message}");
+
+                    return;
+                }
+
                 var logMessage = string.Format(ResourceMessage.ErrorMessagesStore[keyCode], $"{message}");
                 LoggerFile.Log(manifestInfo.LocalPath, manifestInfo.DisplayName, manifestInfo.PackageId, keyCode.ToString(), logMessage);
 
@@ -107,7 +114,9 @@ namespace MediatRItemExtension.Helpers.LogHelper
             catch (Exception ex)
             {
                 Debug.Write(ex);
-                LoggerFile.Log(manifestInfo.LocalPath, manifestInfo.DisplayName, manifestInfo.PackageId, ex);
+
+                if (manifestInfo.IsNotNull())
+                    LoggerFile.Log(manifestInfo.LocalPath, manifestInfo.DisplayName, manifestInfo.PackageId, ex);
             }
         }
 

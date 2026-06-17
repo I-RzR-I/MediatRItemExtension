@@ -82,6 +82,9 @@ namespace $rootnamespace$
         internal static string GetOrCreateInternalItemsTemplatePath()
         {
             var vsixInfo = VsixInfoHelper.Instance.GetManifest();
+            if (vsixInfo.IsNull())
+                return null;
+
             var tempDir = Path.Combine(vsixInfo.LocalPath, "ItemTemplates");
 
             if (Directory.Exists(tempDir).IsFalse())

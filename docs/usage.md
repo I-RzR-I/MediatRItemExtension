@@ -32,7 +32,7 @@ Select a project or a folder form the solution:<br />
  As result you will see the main window of interaction.
  
   <div align="center" width="100%">
- <img src="assets/main_window_v3.5.1.0.png"
+ <img src="assets/main_window_v3.5.2.0.png"
      alt="Main window"
      style="float: center;" 
      width="100%"/> <br />

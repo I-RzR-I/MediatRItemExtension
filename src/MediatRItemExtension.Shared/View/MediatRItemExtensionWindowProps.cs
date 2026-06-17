@@ -51,6 +51,7 @@ namespace MediatRItemExtension.View
         private bool _isWithHandler;
         private bool _isWithValidator;
         private bool _isWithOperation;
+        private bool _isWithFolder;
 
         #endregion
 
@@ -121,6 +122,8 @@ namespace MediatRItemExtension.View
                 OnPropertyChanged(nameof(SelectedProcessOperation));
                 OnPropertyChanged(nameof(IsEnabledProcessOperation));
                 OnPropertyChanged(nameof(SelectedOperation));
+                OnPropertyChanged(nameof(TxTFolderFileName));
+                OnPropertyChanged(nameof(IsFormValid));
             }
         }
 
@@ -149,7 +152,17 @@ namespace MediatRItemExtension.View
             }
         }
 
-        public bool IsWithFolder { get; set; }
+        public bool IsWithFolder
+        {
+            get => _isWithFolder;
+            set
+            {
+                _isWithFolder = value;
+                OnPropertyChanged(nameof(IsWithFolder));
+                OnPropertyChanged(nameof(TxTFolderFileName));
+                OnPropertyChanged(nameof(IsFormValid));
+            }
+        }
 
         public bool IsWithOperation
         {
@@ -278,11 +291,19 @@ namespace MediatRItemExtension.View
 
                 var isValid = TxTFolderFileName.IsPresent()
                     && TxTResponseTypeName.IsPresent()
-                    && Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z0-9\\_]+$", RegexOptions.IgnoreCase).Success.IsTrue();
+                    && Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.IgnoreCase).Success.IsTrue();
 
-                var existFolder = _solutionItemHelper.AlreadyExistItem(TxTFolderFileName);
+                if (isValid.IsFalse())
+                    return false;
 
-                return isValid.IsTrue() && existFolder.IsFalse();
+                // When a folder is created, the files live in a new subfolder named after the
+                // folder/file name, so only that subfolder name can collide (RF0005). When no folder
+                // is created, the generated files land directly in the selected directory, so check
+                // each generated file (operation/handler/validator) for an existing collision.
+                if (IsWithFolder.IsTrue())
+                    return _solutionItemHelper.AlreadyExistItem(TxTFolderFileName).IsFalse();
+
+                return GetSelectedDirectoryCollisionError().IsMissing();
             }
         }
 
@@ -298,9 +319,25 @@ namespace MediatRItemExtension.View
                 {
                     case nameof(TxTFolderFileName):
                         if (TxTFolderFileName.IsMissing())
+                        {
                             error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0001];
-                        if (_solutionItemHelper.AlreadyExistItem(TxTFolderFileName).IsTrue())
-                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0005];
+                            break;
+                        }
+
+                        if (Regex.Match(TxTFolderFileName ?? "", @"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.IgnoreCase).Success.IsFalse())
+                        {
+                            error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0004];
+                            break;
+                        }
+
+                        if (IsWithFolder.IsTrue())
+                        {
+                            if (_solutionItemHelper.AlreadyExistItem(TxTFolderFileName).IsTrue())
+                                error = ResourceMessage.ReqInfoMessagesStore[ReqInfoCodeType.RF0005];
+                        }
+                        else
+                            error = GetSelectedDirectoryCollisionError();
+
                         break;
                     case nameof(TxTResponseTypeName):
                         if (TxTResponseTypeName.IsMissing())
@@ -308,10 +345,34 @@ namespace MediatRItemExtension.View
                         break;
                 }
 
-                OnPropertyChanged(nameof(IsFormValid));
-
                 return error;
             }
+        }
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Builds the validation error for the no-folder case: when "Create folder" is unchecked the
+        ///     generated files land directly in the selected directory. Returns the message for the first
+        ///     generated file (operation/handler/validator) that already exists there, or an empty string
+        ///     when there is no collision.
+        /// </summary>
+        /// <returns>
+        ///     The collision error message, or an empty string when none.
+        /// </returns>
+        /// =================================================================================================
+        private string GetSelectedDirectoryCollisionError()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            if (SelectedOperation.IsNull() || SelectedProcessOperation.IsNull() || SelectedOperationBlueprint.IsNull())
+                return string.Empty;
+
+            var model = GetCreateOperationData();
+            foreach (var file in model.GetGeneratedFiles())
+                if (_solutionItemHelper.AlreadyExistItem(file.FileName).IsTrue())
+                    return string.Format(ResourceMessage.ReqInfoMessagesStore[file.Code], file.TypeName);
+
+            return string.Empty;
         }
 
         /// <inheritdoc/>

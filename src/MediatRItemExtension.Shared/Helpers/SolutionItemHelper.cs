@@ -16,6 +16,8 @@
 
 #region U S A G E S
 
+using System;
+using System.Collections.Generic;
 using System.IO;
 using EnvDTE;
 using EnvDTE90;
@@ -78,6 +80,14 @@ namespace MediatRItemExtension.Helpers
         /// </summary>
         /// =================================================================================================
         private ProjectItems _selectedItemProjectItems;
+
+        /// -------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///     Cached snapshot of existing item names in the selected location, built once on the first
+        ///     <see cref="AlreadyExistItem"/> call and reused for the lifetime of this helper instance.
+        /// </summary>
+        /// =================================================================================================
+        private HashSet<string> _existingItemsSnapshot;
 
         /// -------------------------------------------------------------------------------------------------
         /// <summary>
@@ -314,7 +324,8 @@ namespace MediatRItemExtension.Helpers
 
                         return filePath.SubstringAt(SelectedProject.Name).TruncateAndSetToPath();
                     }
-                    else return SelectedProject.Name.TruncateAndSetToPath();
+                    else 
+                        return SelectedProject.Name.TruncateAndSetToPath();
                 }
                 catch
                 {
@@ -367,6 +378,10 @@ namespace MediatRItemExtension.Helpers
         /// <value>
         ///     The folder name check result.
         /// </value>
+        /// <remarks>
+        ///     The underlying COM walk and disk enumeration are performed at most once per helper instance
+        ///     (one dialog session). Subsequent calls reuse the cached snapshot.
+        /// </remarks>
         /// =================================================================================================
         internal bool AlreadyExistItem(string itemName)
         {
@@ -376,20 +391,26 @@ namespace MediatRItemExtension.Helpers
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
 
-                // Check in solution if item exist
-                for (var i = 1; i <= SelectedItemProjectItems.Count; i++)
+                if (_existingItemsSnapshot.IsNull())
                 {
-                    var itemCheck = SelectedItemProjectItems.Item(i).Name == itemName;
-                    if (itemCheck.IsTrue()) return true;
+                    var snapshot = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+                    for (var i = 1; i <= SelectedItemProjectItems.Count; i++)
+                        snapshot.Add(SelectedItemProjectItems.Item(i).Name);
+
+                    try
+                    {
+                        var originPath = SelectedOriginFullPath;
+                        if (originPath.IsPresent())
+                            foreach (var entry in Directory.EnumerateFileSystemEntries(originPath))
+                                snapshot.Add(Path.GetFileName(entry));
+                    }
+                    catch { }
+
+                    _existingItemsSnapshot = snapshot;
                 }
 
-                // Check if item physical exist (it may be excluded from the solution)
-                var physicalPath = Path.Combine(SelectedOriginFullPath, itemName);
-                if (Directory.Exists(physicalPath) || File.Exists(physicalPath))
-                    return true;
-
-                return false;
+                return _existingItemsSnapshot.Contains(itemName);
             }
             catch
             {

@@ -345,8 +345,6 @@ namespace MediatRItemExtension.View
                         break;
                 }
 
-                OnPropertyChanged(nameof(IsFormValid));
-
                 return error;
             }
         }
